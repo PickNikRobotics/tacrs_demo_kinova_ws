@@ -1,0 +1,6 @@
+[submodule "src/dependencies/moveit_pro_kinova_configs"]
+	path = src/dependencies/moveit_pro_kinova_configs
+	url = git@github.com:PickNikRobotics/moveit_pro_kinova_configs.git
+[submodule "src/dependencies/picknik_accessories"]
+	path = src/dependencies/picknik_accessories
+	url = git@github.com:PickNikRobotics/picknik_accessories.git
