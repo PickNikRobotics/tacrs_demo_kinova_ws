@@ -4,3 +4,10 @@
 [submodule "src/dependencies/picknik_accessories"]
 	path = src/dependencies/picknik_accessories
 	url = git@github.com:PickNikRobotics/picknik_accessories.git
+[submodule "src/dependencies/ros2_robotiq_gripper"]
+	path = src/dependencies/ros2_robotiq_gripper
+	url = git@github.com:PickNikRobotics/ros2_robotiq_gripper.git
+[submodule "src/dependencies/serial"]
+	path = src/dependencies/serial
+	url = https://github.com/tylerjw/serial.git
+		
