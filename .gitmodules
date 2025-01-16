@@ -10,4 +10,3 @@
 [submodule "src/dependencies/serial"]
 	path = src/dependencies/serial
 	url = https://github.com/tylerjw/serial.git
-		
