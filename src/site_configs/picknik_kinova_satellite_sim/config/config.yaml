@@ -17,29 +17,40 @@ hardware:
     urdf:
       package: "picknik_kinova_satellite_sim"
       path: "description/picknik_kinova_satellite_sim.xacro"
+    srdf:
+      package: "picknik_kinova_satellite_sim"
+      path: "config/moveit/picknik_kinova_satellite_sim.srdf"
     # Specify any additional parameters required for the URDF.
     # Many of these are specific to the UR descriptions packages, and can be customized as needed.
     # [Optional]
     urdf_params:
       - arm: "gen3"
       - dof: "7"
-      - mujoco_keyframe: "default"
+      - mujoco_keyframe: "view_tag"
       - mujoco_model: "description/mujoco/scene.xml"
       - mujoco_viewer: "true"
+
+# Configuration for launching ros2_control processes.
+# [Required, if using ros2_control]
+ros2_control:
+  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
+  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
+  # for running the application.
+  # [Optional, default=[]]
+  controllers_active_at_startup:
+    - "force_torque_sensor_broadcaster"
+    - "robotiq_gripper_controller"
+    - "joint_state_broadcaster"
+    - "servo_controller"
+  # Load but do not start these controllers so they can be activated later if needed.
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+    - "joint_trajectory_admittance_controller"
+    - "velocity_force_controller"
 
 # Configuration for loading behaviors and objectives.
 # [Required]
 objectives:
-  # List of plugins for loading custom behaviors.
-  # [Required]
-  behavior_loader_plugins:
-    # This plugin will load the core MoveIt Pro Behaviors.
-    # Add additional plugin loaders as needed.
-    core:
-      - "moveit_studio::behaviors::CoreBehaviorsLoader"
-      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
-      - "moveit_studio::behaviors::ServoBehaviorsLoader"
-      - "moveit_studio::behaviors::VisionBehaviorsLoader"
   # Specify source folder for objectives
   # [Required]
   objective_library_paths:

@@ -14,6 +14,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>apriltag_ros</depend>
+
   <exec_depend>joint_trajectory_admittance_controller</exec_depend>
   <exec_depend>kinova_gen3_mujoco_config</exec_depend>
   <exec_depend>kortex_description</exec_depend>
