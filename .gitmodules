@@ -1,3 +1,6 @@
+[submodule "src/dependencies/fuse"]
+	path = src/dependencies/fuse
+	url = git@github.com:PickNikRobotics/fuse.git
 [submodule "src/dependencies/moveit_pro_kinova_configs"]
 	path = src/dependencies/moveit_pro_kinova_configs
 	url = git@github.com:PickNikRobotics/moveit_pro_kinova_configs.git
