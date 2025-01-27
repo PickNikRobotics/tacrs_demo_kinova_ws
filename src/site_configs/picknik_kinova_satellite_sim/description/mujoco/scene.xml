@@ -171,7 +171,7 @@
       <geom class="collision" mesh="ring_collision_31" />
       <geom class="collision" mesh="ring_collision_32" />
     </body>
-    <body name="gen3_7dof" pos="0 0 0.5" quat="0.5 0.5 0.5 0.5">
+    <body name="gen3_7dof" pos="0 0 0" quat="1 0 0 0">
       <include file="gen3_7dof_body.xml"/>
     </body>
   </worldbody>
@@ -191,27 +191,27 @@
       name="default"
       qpos="
         1 0 0.5 0.7071 0 -0.7071 0
-        0 2.0944 0 -2.66 0 2.1364 1.5708 0
+        0 0 0 0 0 0 0 0
         0 0 0 0 0 0 0"
       qvel="
         0 0.02 0 0 0 0
         0 0 0 0 0 0 0 0
         0 0 0 0 0 0 0"
       ctrl="
-        0 2.0944 0 -2.66 0 2.1364 1.5708 0"
+        0 0 0 0 0 0 0 0"
       />
     <key
       name="view_tag"
       qpos="
         1 0 0.5 0.7071 0 -0.7071 0
-        0 2.0944 0 -2.66 0 0.5656 0 0
+        0 -0.5236 0 2.3562 0 -0.2618 -1.5708 0
         0 0 0 0 0 0 0"
       qvel="
         0 0.02 0 0 0 0
         0 0 0 0 0 0 0 0
         0 0 0 0 0 0 0"
       ctrl="
-        0 2.0944 0 -2.66 0 0.5656 0 0"
+        0 -0.5236 0 2.3562 0 -0.2618 -1.5708 0"
       />
   </keyframe>
 

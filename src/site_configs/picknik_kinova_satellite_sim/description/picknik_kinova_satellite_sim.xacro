@@ -11,6 +11,9 @@
     <xacro:include filename="$(find kortex_description)/arms/$(arg arm)/$(arg dof)dof/urdf/$(arg arm)_macro.xacro" />
     <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
 
+    <!-- Import environment macros -->
+    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/cube.urdf.xacro"/>
+
     <!-- World is centered under base_link of the robot, on the ground -->
     <link name="world"/>
 
@@ -20,7 +23,7 @@
 
     <!-- Load the arm -->
     <joint name="base_joint" type="fixed">
-      <origin rpy="1.5708 0 1.5708" xyz="0 0 0.5"/>
+      <origin rpy="0 0 0" xyz="0 0 0.02"/>
       <parent link="world"/>
       <child link="base_link"/>
     </joint>
@@ -514,6 +517,11 @@
       <origin rpy="0 0 0" xyz="-0.00563134 0.0 0.04718515"/>
       <mimic joint="robotiq_85_left_knuckle_joint" multiplier="-1"/>
     </joint>
+
+    <!-- Environment -->
+    <xacro:cube link_name="table" connected_to="world" length="2.00" width="2.00" height="0.25" alpha="0.3">
+      <origin xyz="0 0 -0.125" rpy="0 0 0"/>
+    </xacro:cube>
 
     <!-- Visual aids for grasping -->
     <link name="finger_tip_closed_point">
