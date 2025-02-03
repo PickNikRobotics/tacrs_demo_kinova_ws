@@ -1,0 +1,15 @@
+[submodule "src/dependencies/fuse"]
+	path = src/dependencies/fuse
+	url = git@github.com:PickNikRobotics/fuse.git
+[submodule "src/dependencies/moveit_pro_kinova_configs"]
+	path = src/dependencies/moveit_pro_kinova_configs
+	url = git@github.com:PickNikRobotics/moveit_pro_kinova_configs.git
+[submodule "src/dependencies/picknik_accessories"]
+	path = src/dependencies/picknik_accessories
+	url = git@github.com:PickNikRobotics/picknik_accessories.git
+[submodule "src/dependencies/ros2_robotiq_gripper"]
+	path = src/dependencies/ros2_robotiq_gripper
+	url = git@github.com:PickNikRobotics/ros2_robotiq_gripper.git
+[submodule "src/dependencies/serial"]
+	path = src/dependencies/serial
+	url = https://github.com/tylerjw/serial.git
