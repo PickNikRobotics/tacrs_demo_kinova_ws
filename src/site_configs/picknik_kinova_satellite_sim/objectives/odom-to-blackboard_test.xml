@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="odom-to-blackboard test">
+  <!--//////////-->
+  <BehaviorTree ID="odom-to-blackboard test" _description="Unknown" _favorite="true">
+    <Control ID="Parallel" success_count="2" failure_count="1">
+      <Decorator ID="KeepRunningUntilFailure">
+        <Action ID="GetOdom" odometry_topic_name="odom_filtered" odometry_pose="{odometry_pose}" subscribed_odometry="{subscribed_odometry}"/>
+      </Decorator>
+      <Control ID="Sequence" name="TopLevelSequence">
+        <Action ID="WaitForDuration" delay_duration="1.000000" name="Wait for blackboard vars to init"/>
+        <Decorator ID="Repeat" num_cycles="-1">
+          <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="WaitForDuration" delay_duration=".001" name="Needed so agent_bridge_doesnt_crash"/>
+            <Action ID="VisualizePose" name="odom pose for debug" pose="{odometry_pose}" marker_name="odom_pose" marker_lifetime="0.000000" marker_size="0.100000"/>
+          </Control>
+        </Decorator>
+      </Control>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="odom-to-blackboard test"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>
