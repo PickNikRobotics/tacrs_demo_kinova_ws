@@ -17,7 +17,7 @@
   <depend>apriltag_ros</depend>
 
   <exec_depend>joint_trajectory_admittance_controller</exec_depend>
-  <exec_depend>kinova_gen3_mujoco_config</exec_depend>
+  <exec_depend>kinova_sim</exec_depend>
   <exec_depend>kortex_description</exec_depend>
   <exec_depend>moveit_studio_kinova_pstop_manager</exec_depend>
   <exec_depend>picknik_mujoco_ros</exec_depend>

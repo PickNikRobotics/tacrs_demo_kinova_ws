@@ -18,7 +18,7 @@
     <link name="world"/>
 
     <!-- initial position for simulations (Mock Hardware, Gazebo, Ignition) -->
-    <xacro:arg name="initial_positions_file" default="$(find kinova_gen3_mujoco_config)/config/initial_positions.yaml"/>
+    <xacro:arg name="initial_positions_file" default="$(find kinova_sim)/config/initial_positions.yaml"/>
     <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
 
     <!-- Load the arm -->
