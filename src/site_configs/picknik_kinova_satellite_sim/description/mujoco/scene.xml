@@ -44,20 +44,20 @@
     />
     <texture
       type="2d"
-      name="april_tag"
-      file="assets/black_white.png"
-      width="32"
-      height="32"
-    />
-    <material name="april_tag" texture="april_tag" />
-    <texture
-      type="2d"
       name="satellite"
       file="assets/satellite.png"
       width="32"
       height="32"
     />
     <material name="satellite" texture="satellite" />
+    <texture type="2d" name="ar_marker_0" file="assets/tag36_11_00000.png"/>
+    <texture type="2d" name="ar_marker_1" file="assets/tag36_11_00001.png"/>
+    <texture type="2d" name="ar_marker_2" file="assets/tag36_11_00002.png"/>
+    <texture type="2d" name="ar_marker_3" file="assets/tag36_11_00003.png"/>
+    <material name="ar_marker_0" texture="ar_marker_0" texuniform="false"/>
+    <material name="ar_marker_1" texture="ar_marker_1" texuniform="false"/>
+    <material name="ar_marker_2" texture="ar_marker_2" texuniform="false"/>
+    <material name="ar_marker_3" texture="ar_marker_3" texuniform="false"/>
   </asset>
 
   <worldbody>
@@ -74,13 +74,12 @@
     <site
       name="scene_camera_optical_frame"
       pos="-0.3 0.3 1.0"
-      euler="3.1416 -1.0472 -1.5708"
+      euler="3.142 1.047 1.571"
       size="0.03"
     />
   </worldbody>
 
   <asset>
-    <mesh name="april_tag" file="april_tag.obj" />
     <mesh name="satellite" file="satellite.obj" />
     <mesh name="satellite_box" file="satellite_box.obj" />
     <mesh name="rafti_collision_1" file="rafti_collision_1.obj" />
@@ -170,6 +169,34 @@
       <geom class="collision" mesh="ring_collision_30" />
       <geom class="collision" mesh="ring_collision_31" />
       <geom class="collision" mesh="ring_collision_32" />
+      <body name="ar_marker_0" pos="-0.09 -0.09 .132" quat="1 0 0 0">
+        <geom
+          type="box"
+          size="0.04 0.04 0.002"
+          rgba="1 1 1 1"
+          material="ar_marker_0"/>
+      </body>
+      <body name="ar_marker_1" pos="0.09 0.09 .132" quat="1 0 0 0">
+        <geom
+          type="box"
+          size="0.04 0.04 0.002"
+          rgba="1 1 1 1"
+          material="ar_marker_1"/>
+      </body>
+      <body name="ar_marker_2" pos="-0.09 0.09 .132" quat="1 0 0 0">
+        <geom
+          type="box"
+          size="0.04 0.04 0.002"
+          rgba="1 1 1 1"
+          material="ar_marker_2"/>
+      </body>
+      <body name="ar_marker_3" pos="0.09 -0.09 .132" quat="1 0 0 0">
+        <geom
+          type="box"
+          size="0.04 0.04 0.002"
+          rgba="1 1 1 1"
+          material="ar_marker_3"/>
+      </body>
     </body>
     <body name="gen3_7dof" pos="0 0 0" quat="1 0 0 0">
       <include file="gen3_7dof_body.xml"/>
@@ -201,7 +228,7 @@
         0 0 0 0 0 0 0 0"
       />
     <key
-      name="view_tag"
+      name="moving_satellite"
       qpos="
         1 0 0.5 0.7071 0 -0.7071 0
         0 -0.5236 0 2.3562 0 -0.2618 -1.5708 0

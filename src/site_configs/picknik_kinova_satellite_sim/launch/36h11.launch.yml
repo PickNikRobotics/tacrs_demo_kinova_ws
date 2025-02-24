@@ -15,11 +15,9 @@ launch:
       namespace: apriltag
       remap:
       - from: /apriltag/image_rect
-        to: /wrist_camera/color
-        # to: /scene_camera/color
+        to: /scene_camera/color
       - from: /apriltag/camera_info
-        to: /wrist_camera/camera_info
-        # to: /scene_camera/camera_info
+        to: /scene_camera/camera_info
       param:
       - from: $(find-pkg-share picknik_kinova_satellite_sim)/launch/tags_36h11.yaml
       extra_arg:

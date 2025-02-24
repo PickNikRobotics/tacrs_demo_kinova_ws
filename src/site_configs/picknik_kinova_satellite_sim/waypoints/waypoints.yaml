@@ -122,3 +122,49 @@
     twist: []
     wrench: []
   name: Home
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - robotiq_85_left_finger_joint
+    - robotiq_85_right_finger_joint
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    - joint_7
+    position:
+    - 0.002603373347255934
+    - 0.00014645411016043903
+    - 0.00014645426688290016
+    - 0.09425935592481213
+    - 0.021586867333101556
+    - -0.17035126324683006
+    - 2.3180565133500926
+    - -0.013744056148720065
+    - -0.7381075423563572
+    - -1.512343082000213
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: home2
