@@ -42,7 +42,22 @@ def generate_launch_description():
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
-                arguments=["0.15", "-0.15", "0", "0", "0", "0", "satellite_tag_0", "target_frame_satellite_tag_0"],
+                arguments=["-0.09", "-0.09", "0", "0", "0", "0", "satellite_tag_0", "target_frame_satellite_tag_0"],
+            ),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                arguments=["0.09", "0.09", "0", "0", "0", "0", "satellite_tag_1", "target_frame_satellite_tag_1"],
+            ),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                arguments=["-0.09", "0.09", "0", "0", "0", "0", "satellite_tag_2", "target_frame_satellite_tag_2"],
+            ),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                arguments=["0.09", "-0.09", "0", "0", "0", "0", "satellite_tag_3", "target_frame_satellite_tag_3"],
             ),
 
             # run our estimator
