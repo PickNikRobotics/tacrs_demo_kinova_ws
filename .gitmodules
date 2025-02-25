@@ -19,3 +19,6 @@
 [submodule "src/dependencies/ros2_kortex_vision"]
 	path = src/dependencies/ros2_kortex_vision
 	url = git@github.com:PickNikRobotics/ros2_kortex_vision.git
+[submodule "src/dependencies/rq_fts_ros2_driver"]
+	path = src/dependencies/rq_fts_ros2_driver
+	url = git@github.com:PickNikRobotics/rq_fts_ros2_driver.git
