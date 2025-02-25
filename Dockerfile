@@ -49,6 +49,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       /home/${USERNAME}/.ros && \
     chown -R $USER_UID:$USER_GID /home/${USERNAME} /opt/overlay_ws/
 
+# Add user to dialout group to enable communication with serial USB devices (gripper, FTS,...)
+# Add user to video group to enable communication with cameras
+RUN usermod -aG dialout,video ${USERNAME}
+
 # IMPORTANT: Optionally install Nvidia drivers for improved simulator performance with Nvidia GPUs.
 # To do this you must
 # 1. Uncomment the ENV and RUN entries below
@@ -60,6 +64,22 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #     --mount=type=cache,target=/var/lib/apt,sharing=locked \ 
 #    add-apt-repository ppa:graphics-drivers/ppa && \
 #    apt update && apt upgrade -y && apt install -y nvidia-driver-555
+
+# Install additional Kortex Vision dependencies
+# NOTE: The /opt/overlay_ws folder contains MoveIt Pro binary packages and the source file.
+# hadolint ignore=SC1091
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    . /opt/overlay_ws/install/setup.sh && \
+    apt-get update && \
+    apt-get install -y \
+      gstreamer1.0-tools \
+      gstreamer1.0-libav \
+      libgstreamer1.0-dev \
+      libgstreamer-plugins-base1.0-dev \
+      libgstreamer-plugins-good1.0-dev \
+      gstreamer1.0-plugins-good \
+      gstreamer1.0-plugins-base
 
 # Install additional dependencies
 # You can also add any necessary apt-get install, pip install, etc. commands at this point.
