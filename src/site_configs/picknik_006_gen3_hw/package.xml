@@ -15,6 +15,7 @@
   <depend>picknik_kinova_satellite_sim</depend>
 
   <exec_depend>kinova_vision</exec_depend>
+  <exec_depend>robotiq_ft_sensor_description</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

@@ -38,26 +38,32 @@ hardware:
       - use_fake_hardware: "false"
       - fake_sensor_commands: "false"
       - use_internal_bus_gripper_comm: "false"
+      - wrist_realsense: "true"
       # When set to true, use_external_cable enforces joint limits on
       # continuous joints to avoid cable wrapping
       - use_external_cable: "false"
-      - gripper_com_port: "/dev/ttyUSB0"
+      - robotiq_fts: "true"
+      - gripper_com_port: "/dev/ttyUSB0"  # Must be plugged in 1st to populate as ttyUSB0
+      - fts_com_port: "ttyUSB1"           # Must be plugged in 2nd to populate as ttyUSB1
 
 
 # Configuration for launching ros2_control processes.
-# [Required, if using ros2_control]
 ros2_control:
-  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
-  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
-  # for running the application.
-  # [Optional, default=[]]
+  config:
+    package: "picknik_006_gen3_hw"
+    path: "config/control/picknik_006_gen3_hw.ros2_control.yaml"
+  # Load and start these controllers so they can be used immediately.
   controllers_active_at_startup:
-    - "force_torque_sensor_broadcaster"
     - "robotiq_gripper_controller"
     - "joint_state_broadcaster"
+    - "fault_controller"
     - "servo_controller"
+    - "force_torque_sensor_broadcaster"
+  # TODO: Need the ability to enable empty list of inactive controllers at startup
   # Load but do not start these controllers so they can be activated later if needed.
   controllers_inactive_at_startup:
+    - "twist_controller" # this controller is currently not able to run at the same time as joint_trajectory_controller and is currently disabled in picknik_kinova_gen3.ros2_control.yaml
+    - "streaming_controller"
     - "joint_trajectory_controller"
     - "joint_trajectory_admittance_controller"
     - "velocity_force_controller"
