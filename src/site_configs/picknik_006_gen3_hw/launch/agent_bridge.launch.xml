@@ -1,4 +1,5 @@
 <launch>
   <include file="$(find-pkg-share moveit_studio_agent)/launch/studio_agent_bridge.launch.xml" />
   <include file="$(find-pkg-share picknik_006_gen3_hw)/launch/36h11.launch.yml" />
+  <include file="$(find-pkg-share picknik_006_gen3_hw)/launch/cameras.launch.xml" />
 </launch>

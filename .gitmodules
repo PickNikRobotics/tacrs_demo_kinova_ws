@@ -22,3 +22,6 @@
 [submodule "src/dependencies/rq_fts_ros2_driver"]
 	path = src/dependencies/rq_fts_ros2_driver
 	url = git@github.com:PickNikRobotics/rq_fts_ros2_driver.git
+[submodule "src/dependencies/zed_open_capture_ros"]
+	path = src/dependencies/zed_open_capture_ros
+	url = git@github.com:PickNikRobotics/zed_open_capture_ros.git

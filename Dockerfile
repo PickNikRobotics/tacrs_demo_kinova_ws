@@ -37,7 +37,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     groupadd --gid $USER_GID ${USERNAME} && \
     useradd --uid $USER_UID --gid $USER_GID --shell /bin/bash --create-home ${USERNAME} && \
     apt-get update && \
-    apt-get install -q -y --no-install-recommends sudo && \
+    apt-get install -q -y --no-install-recommends sudo wget && \
     echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME} && \
     cp -r /etc/skel/. /home/${USERNAME} && \
@@ -65,7 +65,7 @@ RUN usermod -aG dialout,video ${USERNAME}
 #    add-apt-repository ppa:graphics-drivers/ppa && \
 #    apt update && apt upgrade -y && apt install -y nvidia-driver-555
 
-# Install additional Kortex Vision dependencies
+# Install additional Kortex Vision and ZED camera dependencies
 # NOTE: The /opt/overlay_ws folder contains MoveIt Pro binary packages and the source file.
 # hadolint ignore=SC1091
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -79,7 +79,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       libgstreamer-plugins-base1.0-dev \
       libgstreamer-plugins-good1.0-dev \
       gstreamer1.0-plugins-good \
-      gstreamer1.0-plugins-base
+      gstreamer1.0-plugins-base \
+      # Dependencies for zed_open_capture_ros
+      wget \
+      libhidapi-dev
 
 # Install additional dependencies
 # You can also add any necessary apt-get install, pip install, etc. commands at this point.
@@ -123,7 +126,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends \
         less \
         gdb \
-        nano
+        nano \
+        wget \
+        libhidapi-dev # to launch cameras in dev container
 
 # Set up the user's .bashrc file and shell.
 CMD ["/usr/bin/bash"]
