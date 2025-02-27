@@ -45,6 +45,14 @@ hardware:
       - robotiq_fts: "true"
       - gripper_com_port: "/dev/ttyUSB0"  # Must be plugged in 1st to populate as ttyUSB0
       - fts_com_port: "ttyUSB1"           # Must be plugged in 2nd to populate as ttyUSB1
+      - scene_camera_calibration_file:
+          package: "picknik_006_gen3_hw"
+          path: "calibration/scene_camera_calibration.yaml"
+# Not sure if I need this. Use scene camera for sim, and the Zed for HW. But If I do need it, make sure to update the path.
+  # camera_config_file:
+  #   package: "picknik_006_gen3_hw"
+  #   path: "calibration/cameras.yaml"
+
 
 
 # Configuration for launching ros2_control processes.

@@ -267,5 +267,13 @@
     <origin xyz="0 0 0.15" rpy="0 0 0"/>
   </joint>
 
+  <!-- Add calibration components -->
+  <link name="checkerboard" />
+  <joint name="checkerboard_joint" type="fixed">
+    <parent link="end_effector_link" />
+    <child link="checkerboard" />
+    <origin xyz="0.185 0.037 0.155" rpy="3.142 0.0 3.142" />
+  </joint>
+
 
 </robot>
