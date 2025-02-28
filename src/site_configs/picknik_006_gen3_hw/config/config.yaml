@@ -71,6 +71,13 @@ ros2_control:
 # Configuration for loading behaviors and objectives.
 # [Required]
 objectives:
+  behavior_loader_plugins:
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
+      - "moveit_studio::behaviors::ServoBehaviorsLoader"
+      - "moveit_studio::behaviors::VisionBehaviorsLoader"
+      - "calibrate_camera_pose::CalibrateCameraPoseBehaviorsLoader"
   # Specify source folder for objectives
   # [Required]
   objective_library_paths:

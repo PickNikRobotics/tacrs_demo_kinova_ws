@@ -267,5 +267,24 @@
     <origin xyz="0 0 0.15" rpy="0 0 0"/>
   </joint>
 
+  <link name="calibration_tool_link">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find picknik_006_gen3_hw)/description/assets/calibration_tool.stl"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="calibration_tool_joint" type="fixed">
+    <parent link="grasp_link"/>
+    <child link = "calibration_tool_link"/>
+    <origin xyz="0 0 0.019" rpy="0 0 0"/>
+  </joint>
+
+  <link name="calibration_tool_frame"/>
+  <joint name="calibration_tool_frame_joint" type="fixed">
+    <parent link="calibration_tool_link"/>
+    <child link = "calibration_tool_frame"/>
+    <origin xyz="0 -0.09325 -0.01" rpy="0 ${pi} ${pi}"/>
+  </joint>
 
 </robot>
