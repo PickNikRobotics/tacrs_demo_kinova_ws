@@ -14,8 +14,7 @@
 namespace
 {
   constexpr auto kPortIDCalibrationPoseStamped = "calibration_pose_stamped";
-  constexpr auto kPortIDPackageName = "package_name";
-  constexpr auto kPortIDFilePath = "file_path";
+  constexpr auto kPortIDFileName = "file_name";
 }
 
 namespace calibration_behaviors
@@ -33,9 +32,7 @@ BT::PortsList SaveCalibrationPoseYaml::providedPorts()
   return BT::PortsList({
     BT::InputPort<geometry_msgs::msg::PoseStamped>(kPortIDCalibrationPoseStamped, "{average_pose_stamped}",
                                                     "Computed average of all the PoseStamped objects."),
-    BT::InputPort<std::string>(kPortIDPackageName, "",
-                               "Optional package to save the file relative to. If empty, and provided a relative file_path, will assume the file is to be saved in the objectives directory."),
-    BT::InputPort<std::string>(kPortIDFilePath, "calibration_pose.yaml", "Path at which to save the file.")
+    BT::InputPort<std::string>(kPortIDFileName, "calibration_pose.yaml", "Path at which to save the file.")
   });
 }
 
@@ -47,7 +44,7 @@ BT::KeyValueVector SaveCalibrationPoseYaml::metadata()
 BT::NodeStatus SaveCalibrationPoseYaml::tick()
 {
   const auto ports = moveit_studio::behaviors::getRequiredInputs(
-    getInput<geometry_msgs::msg::PoseStamped>(kPortIDCalibrationPoseStamped), getInput<std::string>(kPortIDFilePath));
+    getInput<geometry_msgs::msg::PoseStamped>(kPortIDCalibrationPoseStamped), getInput<std::string>(kPortIDFileName));
 
   if (!ports.has_value()) {
     shared_resources_->logger->publishFailureMessage(name(), fmt::format("Missing input port: {}", ports.error()));
@@ -55,7 +52,6 @@ BT::NodeStatus SaveCalibrationPoseYaml::tick()
   }
 
   const auto& [pose_stamped, file_path] = ports.value();
-  const auto& package_name_maybe = getInput<std::string>(kPortIDPackageName);
 
   // Convert from quaternion to RPY.
   tf2::Quaternion quat(pose_stamped.pose.orientation.x, pose_stamped.pose.orientation.y,
@@ -74,12 +70,9 @@ BT::NodeStatus SaveCalibrationPoseYaml::tick()
   node[calibration_data_str]["yaw"] = yaw;
 
   // Attempt to save the file.
-  const std::vector<std::string> objective_library_directories = shared_resources_->node->get_parameter("objective_library_directories").as_string_array();
-  auto filepath_maybe = moveit_studio::common::filesystem_utils::getFilePath(
-    file_path, objective_library_directories[0],
-    /*must_exist=*/false, package_name_maybe.value());
-  if (!filepath_maybe)
-  {
+  const std::string objective_source_directory = shared_resources_->node->get_parameter("config_source_directory").as_string() + "/objectives";
+  auto filepath_maybe = moveit_studio::common::filesystem_utils::getFilePath(file_path, objective_source_directory);
+  if (!filepath_maybe) {
     shared_resources_->logger->publishFailureMessage(
       name(), fmt::format("Filepath '{}' could not be resolved. Error: '{}'", file_path, filepath_maybe.error()));
     return BT::NodeStatus::FAILURE;
