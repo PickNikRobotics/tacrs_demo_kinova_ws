@@ -1,0 +1,84 @@
+###############################################################
+#
+#  This configures the robot to work with MoveIt Pro
+#
+###############################################################
+
+# Extend the Kinova satellite sim configuration
+based_on_package: "picknik_kinova_satellite_sim"
+
+# Baseline hardware configuration parameters for MoveIt Pro.
+# [Required]
+hardware:
+  # Parameters used to configure the robot description through XACRO.
+  # A URDF and SRDF are both required.
+  # [Required]
+  robot_description:
+    urdf:
+      package: "picknik_006_gen3_hw"
+      path: "description/picknik_006_gen3_hw.xacro"
+    srdf:
+      package: "picknik_006_gen3_hw"
+      path: "config/moveit/picknik_006_gen3_hw.srdf"
+    # Specify any additional parameters required for the URDF.
+    # Many of these are specific to the UR descriptions packages, and can be customized as needed.
+    # [Optional]
+    urdf_params:
+      - arm: "gen3"
+      - dof: "7"
+      - vision: "true"
+      - robot_ip:  "192.168.1.10"
+      - gripper: "robotiq_2f_85"
+      - username: "admin"
+      - password: "admin"
+      - port: "10000"
+      - port_realtime: "10001"
+      - session_inactivity_timeout_ms: "60000"
+      - connection_inactivity_timeout_ms: "2000"
+      - use_fake_hardware: "false"
+      - fake_sensor_commands: "false"
+      - use_internal_bus_gripper_comm: "false"
+      - wrist_realsense: "true"
+      # When set to true, use_external_cable enforces joint limits on
+      # continuous joints to avoid cable wrapping
+      - use_external_cable: "false"
+      - robotiq_fts: "true"
+      - gripper_com_port: "/dev/ttyUSB0"  # Must be plugged in 1st to populate as ttyUSB0
+      - fts_com_port: "ttyUSB1"           # Must be plugged in 2nd to populate as ttyUSB1
+
+
+# Configuration for launching ros2_control processes.
+ros2_control:
+  config:
+    package: "picknik_006_gen3_hw"
+    path: "config/control/picknik_006_gen3_hw.ros2_control.yaml"
+  # Load and start these controllers so they can be used immediately.
+  controllers_active_at_startup:
+    - "robotiq_gripper_controller"
+    - "joint_state_broadcaster"
+    - "fault_controller"
+    - "servo_controller"
+    - "force_torque_sensor_broadcaster"
+  # TODO: Need the ability to enable empty list of inactive controllers at startup
+  # Load but do not start these controllers so they can be activated later if needed.
+  controllers_inactive_at_startup:
+    - "twist_controller" # this controller is currently not able to run at the same time as joint_trajectory_controller and is currently disabled in picknik_kinova_gen3.ros2_control.yaml
+    - "streaming_controller"
+    - "joint_trajectory_controller"
+    - "joint_trajectory_admittance_controller"
+    - "velocity_force_controller"
+
+# Configuration for loading behaviors and objectives.
+# [Required]
+objectives:
+  # Specify source folder for objectives
+  # [Required]
+  objective_library_paths:
+    gen3_hw_objectives:
+      package_name: "picknik_006_gen3_hw"
+      relative_path: "objectives"
+  # Specify the location of the saved waypoints file.
+  # [Required]
+  waypoints_file:
+    package_name: "picknik_006_gen3_hw"
+    relative_path: "waypoints/waypoints.yaml"
