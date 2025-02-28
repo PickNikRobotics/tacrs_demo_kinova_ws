@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <package format="3">
-  <name>calibrate_camera_pose</name>
+  <name>calibration_behaviors</name>
   <version>0.0.0</version>
-  <description>Calibrate scene camera extrinsics</description>
+  <description>Behaviors to calibrate scene camera extrinsics</description>
 
   <maintainer email="john@doe.com">
     John Doe
@@ -17,7 +17,11 @@
 
   <build_depend>moveit_studio_common</build_depend>
 
+  <depend>geometry_msgs</depend>
   <depend>moveit_studio_behavior_interface</depend>
+  <depend>tf2</depend>
+  <depend>tf2_eigen</depend>
+  <depend>eigen</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_cmake_gtest</test_depend>

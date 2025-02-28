@@ -1,4 +1,4 @@
-#include "calibrate_camera_pose/calibrate_camera_pose.hpp"
+#include "calibration_behaviors/calibrate_camera_pose.hpp"
 
 #include <vector>
 
@@ -19,7 +19,7 @@ namespace
   constexpr auto kPortIDDebugCameraCalibPose = "debug_camera_calibration_pose";
 }
 
-namespace calibrate_camera_pose
+namespace calibration_behaviors
 {
   CalibrateCameraPose::CalibrateCameraPose(const std::string &name, const BT::NodeConfiguration &config,
                                            const std::shared_ptr<moveit_studio::behaviors::BehaviorContext> &
