@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Scene Camera">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Scene Camera" _description="" _favorite="false" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Control ID="Parallel" failure_count="1" success_count="1">
+        <Control ID="Sequence" name="TopLevelSequence">
+          <Action ID="CreateStampedPose" reference_frame="base_link" stamped_pose="{stamped_pose}"/>
+          <Action ID="PublishStaticFrame" child_frame_id="zed_left_camera_optical_frame" pose="{stamped_pose}" publish_rate="50"/>
+        </Control>
+        <Control ID="Sequence" name="TopLevelSequence">
+          <Action ID="LoadObjectiveParameters" parameters="{parameters}" config_file_name="51mm_apriltag_detection_config.yaml"/>
+          <SubTree ID="Move to Waypoint" _collapsed="true" acceleration_scale_factor="1.0" controller_action_server="/joint_trajectory_controller/follow_joint_trajectory" controller_names="/joint_trajectory_controller" joint_group_name="manipulator" keep_orientation="false" keep_orientation_tolerance="0.05" link_padding="0.01" velocity_scale_factor="1.0" waypoint_name="Calibrate_1"/>
+          <Action ID="WaitForDuration" delay_duration="1.0" name="To settle any vibrations"/>
+          <Action ID="GetImage" message_out="{image}" timeout_sec="2.0" topic_name="/zed2i_camera/left/image_raw_color"/>
+          <Action ID="GetCameraInfo" message_out="{camera_info}" timeout_sec="2.0" topic_name="/zed2i_camera/left/camera_info"/>
+          <Action ID="DetectAprilTags" camera_info="{camera_info}" detections="{detections}" image="{image}" parameters="{parameters}"/>
+          <Action ID="GetDetectionPose" detection_pose="{detection_pose}" detections="{detections}" target_id="5" name="TopLeft"/>
+          <Action ID="SavePoseStampedToYaml" message="{detection_pose}" yaml_filename="detected_calibration_poses_topLeft.yaml" namespace="topLeft"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{detection_pose}" name="base_to_calib_pose" marker_name="topLeft"/>
+          <Action ID="AddPoseStampedToVector" input="{detection_pose}" vector="{pose_stamped_vector}"/>
+          <Action ID="GetDetectionPose" detection_pose="{detection_pose}" detections="{detections}" target_id="0" name="TopRight"/>
+          <Action ID="SavePoseStampedToYaml" message="{detection_pose}" yaml_filename="detected_calibration_poses_topRight.yaml" namespace="topRight"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{detection_pose}" name="base_to_calib_pose" marker_name="topRight"/>
+          <Action ID="AddPoseStampedToVector" input="{detection_pose}" vector="{pose_stamped_vector}"/>
+          <Action ID="GetDetectionPose" detection_pose="{detection_pose}" detections="{detections}" target_id="3" name="Bottom"/>
+          <Action ID="SavePoseStampedToYaml" message="{detection_pose}" yaml_filename="detected_calibration_poses_bottom.yaml" namespace="bottom"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{detection_pose}" name="base_to_calib_pose" marker_name="bottom"/>
+          <Action ID="AddPoseStampedToVector" input="{detection_pose}" vector="{pose_stamped_vector}"/>
+          <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_frame" computed_pose="{computed_pose}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}" detected_poses="{pose_stamped_vector}"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="base_to_calib_pose" marker_size="0.100000" pose="{base_to_calib_pose}" name="base_to_calib_pose"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="Zed Camera Pose" marker_size="0.100000" pose="{computed_pose}" name="Zed Camera Pose"/>
+          <Action ID="SavePoseStampedToYaml" message="{computed_pose}" yaml_filename="detected_calibration_poses_topRight.yaml"/>
+        </Control>
+      </Control>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Scene Camera"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>

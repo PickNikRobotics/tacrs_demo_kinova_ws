@@ -20,14 +20,14 @@
     - joint_6
     - joint_7
     position:
-    - 0
-    - -0.7136536688951498
-    - -0.17239067841857292
-    - 3.1203126648995148
-    - -0.9648866987533005
-    - 0.3628828960559286
-    - -1.704767178063551
-    - 1.0572736877599398
+    - 0.7998859030837006
+    - -1.283204756470547
+    - 0.5403166028937032
+    - 2.8052737574324826
+    - -0.9655807185333751
+    - 1.0598733324580205
+    - -1.8588928324619243
+    - 0.5923599970474908
     velocity: []
   multi_dof_joint_state:
     header:
@@ -39,7 +39,88 @@
     transforms: []
     twist: []
     wrench: []
-  name: View Above
+  name: Calibrate_2
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    - joint_7
+    position:
+    - 0.268957268722467
+    - -1.1929832503252795
+    - 0.3602637104133493
+    - -3.132986648527202
+    - -0.9353772759785688
+    - 0.7489066646138284
+    - -1.4275544791394585
+    - 0.5923133917284144
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Calibrate_1
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    - joint_7
+    position:
+    - 0
+    - 2.0944
+    - 0
+    - -2.66
+    - 0
+    - 2.1364
+    - 1.5708
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Home
 - description: ''
   favorite: false
   joint_group_names:
@@ -82,15 +163,17 @@
 - description: ''
   favorite: false
   joint_group_names:
+  - gripper
   - manipulator
   joint_state:
     effort: []
     header:
-      frame_id: world
+      frame_id: ''
       stamp:
         nanosec: 0
         sec: 0
     name:
+    - robotiq_85_left_knuckle_joint
     - joint_1
     - joint_2
     - joint_3
@@ -100,12 +183,13 @@
     - joint_7
     position:
     - 0
-    - 2.0944
-    - 0
-    - -2.66
-    - 0
-    - 2.1364
-    - 1.5708
+    - -0.7136536688951498
+    - -0.17239067841857292
+    - 3.1203126648995148
+    - -0.9648866987533005
+    - 0.3628828960559286
+    - -1.704767178063551
+    - 1.0572736877599398
     velocity: []
   multi_dof_joint_state:
     header:
@@ -117,4 +201,4 @@
     transforms: []
     twist: []
     wrench: []
-  name: Home
+  name: View Above
