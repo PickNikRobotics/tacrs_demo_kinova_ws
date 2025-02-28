@@ -7,12 +7,9 @@
       <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_1"/>
       <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_2"/>
       <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_3"/>
-      <Decorator ID="ForEach" index="{index}" out="{calibrated_pose}" vector_in="{computed_poses_vector}">
-        <Control ID="Sequence" name="TopLevelSequence">
-          <Action ID="SavePoseStampedToYaml" message="{calibrated_pose}" yaml_filename="scene_camera_calibration_pose.yaml"/>
-          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{calibrated_pose}" name="Zed Camera Pose" marker_name="Calibrated camera pose"/>
-        </Control>
-      </Decorator>
+      <Action ID="AveragePoseStampedVector" average_pose_stamped="{calibrated_pose}" pose_stamped_vector="{computed_poses_vector}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{calibrated_pose}" name="Zed Camera Pose" marker_name="Calibrated camera pose"/>
+      <Action ID="SaveCalibrationPoseYaml" calibration_pose_stamped="{calibrated_pose}" file_path="calibration_pose.yaml" package_name="scene_camera_calibration_pose.yaml"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
