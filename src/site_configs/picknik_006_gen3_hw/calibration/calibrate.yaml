@@ -12,9 +12,9 @@ robot_calibration:
         type: chain3d
         frame: checkerboard # this can be 'checkerboard' but you need to remove it from the free_frames
       camera:
-        type: chain3d
-        # frame: scene_camera_mount_link
-        topic: /scene_camera/depth/color/points # is this used? See line 97-99 in params.cpp
+        type: camera2d
+        frame: scene_camera_mount_link
+        topic: /zed2i_camera/left/image_raw_color # is this used? See line 97-99 in params.cpp
       free_frames:
       - scene_camera_mount_joint
       scene_camera_mount_joint:
@@ -43,6 +43,6 @@ robot_calibration:
       error_blocks:
       - hand_eye
       hand_eye:
-        type: chain3d_to_chain3d
-        model_a: camera
-        model_b: arm
+        type: chain3d_to_camera2d
+        model_2d: camera
+        model_3d: arm

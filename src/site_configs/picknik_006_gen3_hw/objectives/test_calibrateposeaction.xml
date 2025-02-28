@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Test CalibratePoseAction">
+  <!--//////////-->
+  <BehaviorTree ID="Test CalibratePoseAction" _description="" _favorite="false" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CalibratePoseAction" base_frame="world" calibrated_poses="{calibrated_poses}" calibration_frame_id="world"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Test CalibratePoseAction"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>

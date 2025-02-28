@@ -1,7 +1,7 @@
 camera_pose:
-  x: 0.3
-  y: 0
-  z: 0.6
-  roll: 0
-  pitch: 1.57
-  yaw: 0
+  x: 0.0
+  y: 0.52
+  z: 0.37
+  roll: 0.0
+  pitch: 0.0
+  yaw: -0.35

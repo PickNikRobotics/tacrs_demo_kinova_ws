@@ -1,0 +1,14 @@
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Zed Camera">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Zed Camera" _description="" _favorite="true" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CalibratePoseAction" base_frame="base_link" calibrated_poses="{calibrated_poses}" calibration_frame_id="scene_camera_mount_link"/>
+      <Action ID="WriteCalibratedPoseToYaml" calibrated_poses="{calibrated_poses}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Zed Camera"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>

@@ -6,6 +6,7 @@ find_package(ament_cmake REQUIRED)
 install(
   DIRECTORY
     config
+    calibration
     description
     launch
     objectives

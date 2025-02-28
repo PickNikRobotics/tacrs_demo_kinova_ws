@@ -25,3 +25,6 @@
 [submodule "src/dependencies/zed_open_capture_ros"]
 	path = src/dependencies/zed_open_capture_ros
 	url = git@github.com:PickNikRobotics/zed_open_capture_ros.git
+[submodule "src/dependencies/robot_calibration"]
+	path = src/dependencies/robot_calibration
+	url = git@github.com:mikeferguson/robot_calibration.git

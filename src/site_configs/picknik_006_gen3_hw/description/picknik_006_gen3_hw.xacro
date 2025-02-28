@@ -268,20 +268,63 @@
     <origin xyz="0 0 0.15" rpy="0 0 0"/>
   </joint>
 
-  <!-- Add calibration components -->
-  <link name="checkerboard" />
-  <joint name="checkerboard_joint" type="fixed">
-    <parent link="end_effector_link" />
-    <child link="checkerboard" />
-    <origin xyz="0.185 0.037 0.155" rpy="3.142 0.0 3.142" />
-  </joint>
-
   <!-- Scene camera mounted above robot workspace -->
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/extrinsic_calibrated_realsense.urdf.xacro"/>
   <xacro:load_extrinsic_calibrated_realsense
-    name="zed_camera"
+    name="scene_camera_mount"
     parent="base_link"
     model="d415"
     extrinsic_calibration_parameter_file="$(arg scene_camera_calibration_file)" />
+
+  <!-- Add checkerboard calibration tool -->
+  <link name="calibration_tool">
+    <visual>
+      <geometry>
+        <mesh filename="file://$(find picknik_006_gen3_hw)/description/assets/calibration_tool.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file://$(find picknik_006_gen3_hw)/description/assets/calibration_tool.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="calibration_tool_joint" type="fixed">
+    <parent link="grasp_link"/>
+    <child link="calibration_tool"/>
+    <origin rpy="0 ${pi} 0" xyz="0.0 -0.0215 0.003"/>
+  </joint>
+
+  <!-- Add calibration checkerboard frame -->
+  <link name="checkerboard" />
+  <joint name="checkerboard_joint" type="fixed">
+    <parent link="grasp_link" />
+    <child link="checkerboard" />
+    <origin xyz="-0.0619 0.115 0.04657" rpy="3.142 0.0 -1.5708" />
+  </joint>
+
+  <!-- <link name="camera_wall_link">
+    <visual>
+      <origin xyz="-0.5 0 0" rpy="0 ${pi/2} 0" />
+      <geometry>
+        <cylinder radius="0.02" length="1.0" />
+      </geometry>
+      <material name="Blue">
+        <color rgba="0 0 1.0 0.3" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.48 0 0" rpy="0 ${pi/2} 0" />
+      <geometry>
+        <cylinder radius="0.1" length="1.0" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="camera_wall_joint" type="fixed">
+    <parent link="scene_camera_mount_link" />
+    <child link="camera_wall_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint> -->
 
 
 </robot>

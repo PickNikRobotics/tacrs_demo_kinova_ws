@@ -76,7 +76,7 @@ def generate_launch_description():
             Node(
                 name="robot_calibration",
                 package="robot_calibration",
-                executable="calibrate_server",
+                executable="calibrate",
                 arguments=[calibration_poses],
                 parameters=[capture_config, calibration_config],
                 output="screen",

@@ -20,7 +20,7 @@ robot_calibration:
       topic: /zed2i_camera/left/image_raw_color
       camera_info_topic: /zed2i_camera/left/camera_info
       camera_sensor_name: camera
-      # camera_link: scene_camera_mount_link
+      camera_link: scene_camera_mount_link
       chain_sensor_name: arm
       frame_id: checkerboard # Name of checkerboard frame (if not specified it defaults to: checkerboard)
       debug: true

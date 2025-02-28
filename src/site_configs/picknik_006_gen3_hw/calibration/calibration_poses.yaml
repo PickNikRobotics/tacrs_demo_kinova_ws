@@ -1,18 +1,20 @@
 - features:
-  - checkerboard_finder
+    - checkerboard_finder
   joints:
-  - joint_1
-  - joint_2
-  - joint_3
-  - joint_4
-  - joint_5
-  - joint_6
-  - joint_7
+    - robotiq_85_left_knuckle_joint
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    - joint_7
   positions:
-  - 0.1
-  - 0.0
-  - 2.46
-  - 1.5
-  - 0.9
-  - 1.7
-  - 0.0
+    - 0
+    - -0.7136536688951498
+    - -0.17239067841857292
+    - 3.1203126648995148
+    - -0.9648866987533005
+    - 0.3628828960559286
+    - -1.704767178063551
+    - 1.0572736877599398
