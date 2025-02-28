@@ -12,7 +12,7 @@
       <Action ID="AddPoseStampedToVector" input="{pose1}" vector="{detected_poses}"/>
       <Action ID="AddPoseStampedToVector" input="{pose2}" vector="{detected_poses}"/>
       <Action ID="AddPoseStampedToVector" input="{pose3}" vector="{detected_poses}"/>
-      <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_link" computed_pose="{computed_pose}" detected_poses="{detected_poses}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}"/>
+      <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_frame" computed_pose="{computed_pose}" detected_poses="{detected_poses}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="computed_pose" marker_size="0.100000" pose="{computed_pose}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="base_to_calib_pose" marker_size="0.100000" pose="{base_to_calib_pose}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="camera_to_calib_pose" marker_size="0.100000" pose="{camera_to_calib_pose}"/>

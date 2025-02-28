@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Test Calibrate Pose Loaded">
+  <!--//////////-->
+  <BehaviorTree ID="Test Calibrate Pose Loaded" _description="" _favorite="true" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Control ID="Fallback">
+        <Control ID="Sequence">
+          <Action ID="CreateStampedPose" reference_frame="base_link" stamped_pose="{stamped_pose}"/>
+          <Decorator ID="Timeout" msec="50">
+            <Action ID="PublishStaticFrame" child_frame_id="zed_left_camera_optical_frame" pose="{stamped_pose}" publish_rate="50"/>
+          </Decorator>
+        </Control>
+        <Action ID="AlwaysSuccess"/>
+      </Control>
+      <Action ID="LoadPoseStampedVectorFromYaml" output="{detected_poses}" file_path="detected_calibration_poses.yaml"/>
+      <Action ID="Script" code="i:=0"/>
+      <Decorator ID="ForEach" index="{index}" out="{out}" vector_in="{detected_poses}">
+        <Control ID="Sequence">
+          <Action ID="Script" code="i+=1"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="{i}" marker_size="0.100000" pose="{out}"/>
+        </Control>
+      </Decorator>
+      <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_frame" computed_pose="{computed_pose}" detected_poses="{detected_poses}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="computed_pose" marker_size="0.100000" pose="{computed_pose}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="base_to_calib_pose" marker_size="0.100000" pose="{base_to_calib_pose}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="camera_to_calib_pose" marker_size="0.100000" pose="{camera_to_calib_pose}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Test Calibrate Pose Loaded"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>
