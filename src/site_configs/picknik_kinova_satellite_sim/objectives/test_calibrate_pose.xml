@@ -1,19 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Test Calibrate Pose">
   <!--//////////-->
-  <BehaviorTree ID="Test Calibrate Pose" _description="" _favorite="false" _subtreeOnly="false">
+  <BehaviorTree ID="Test Calibrate Pose" _description="" _favorite="true" _subtreeOnly="false">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{pose1}" position_xyz="0.75;-0.25;0.5"/>
-      <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{pose2}" position_xyz="0.5;0.25;0.5"/>
-      <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{pose3}" position_xyz="0.5;0.0;1.0"/>
+      <Action ID="CreateStampedPose" reference_frame="base_link" stamped_pose="{pose1}" position_xyz="0.1;-0.05;0.45"/>
+      <Action ID="CreateStampedPose" reference_frame="base_link" stamped_pose="{pose2}" position_xyz="-0.1;-0.05;0.45"/>
+      <Action ID="CreateStampedPose" reference_frame="base_link" stamped_pose="{pose3}" position_xyz="0.0;0.05;0.4"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="pose1" marker_size="0.100000" pose="{pose1}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="pose2" marker_size="0.100000" pose="{pose2}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="pose3" marker_size="0.100000" pose="{pose3}"/>
       <Action ID="AddPoseStampedToVector" input="{pose1}" vector="{detected_poses}"/>
       <Action ID="AddPoseStampedToVector" input="{pose2}" vector="{detected_poses}"/>
       <Action ID="AddPoseStampedToVector" input="{pose3}" vector="{detected_poses}"/>
-      <Action ID="CalibrateCameraPose" base_link="world" calibration_tool_frame="calibration_tool_link" computed_pose="{computed_pose}" detected_poses="{detected_poses}"/>
+      <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_link" computed_pose="{computed_pose}" detected_poses="{detected_poses}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="computed_pose" marker_size="0.100000" pose="{computed_pose}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="base_to_calib_pose" marker_size="0.100000" pose="{base_to_calib_pose}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="camera_to_calib_pose" marker_size="0.100000" pose="{camera_to_calib_pose}"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>

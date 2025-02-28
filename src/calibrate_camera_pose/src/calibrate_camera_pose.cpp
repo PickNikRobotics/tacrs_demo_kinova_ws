@@ -1,10 +1,12 @@
-#include <calibrate_camera_pose/calibrate_camera_pose.hpp>
+#include "calibrate_camera_pose/calibrate_camera_pose.hpp"
 
 #include <vector>
 
-#include <geometry_msgs/msg/pose_stamped.hpp>
+#include "fmt/format.h"
+#include "geometry_msgs/msg/pose_stamped.hpp"
+#include "tf2_eigen/tf2_eigen.hpp"
 
-#include <moveit_studio_behavior_interface/get_required_ports.hpp>
+#include "moveit_studio_behavior_interface/get_required_ports.hpp"
 
 namespace
 {
@@ -12,6 +14,9 @@ namespace
   constexpr auto kPortIDCalibrationToolFrame = "calibration_tool_frame";
   constexpr auto kPortIDBaseFrame = "base_link";
   constexpr auto kPortIDComputedPose = "computed_pose";
+  // DEBUG PORTS
+  constexpr auto kPortIDDebugBaseCalibPose = "debug_base_calibration_pose";
+  constexpr auto kPortIDDebugCameraCalibPose = "debug_camera_calibration_pose";
 }
 
 namespace calibrate_camera_pose
@@ -34,7 +39,11 @@ BT::PortsList CalibrateCameraPose::providedPorts()
     BT::InputPort<std::string>(kPortIDBaseFrame, "base_link",
                                "Frame the output computed pose should be represented in. Must be a part of the robot kinematic chain."),
     BT::OutputPort<geometry_msgs::msg::PoseStamped>(kPortIDComputedPose, "{computed_pose}",
-                                                    "Computed pose of the camera.")
+                                                    "Computed pose of the camera."),
+    BT::OutputPort<geometry_msgs::msg::PoseStamped>(kPortIDDebugBaseCalibPose, "{base_to_calib_pose}",
+                                                    "Pose of the calibration tool represented in the base frame."),
+    BT::OutputPort<geometry_msgs::msg::PoseStamped>(kPortIDDebugCameraCalibPose, "{camera_to_calib_pose}",
+                                                    "Pose of the calibration tool represented in the camera frame.")
   });
 }
 
@@ -75,27 +84,27 @@ BT::NodeStatus CalibrateCameraPose::tick()
   Eigen::Vector3d center_point = (point1 + point2 + point3) / 3.0;
 
   // Compute the vectors of the triangle sides.
-  Eigen::Vector3d v1 = point1 - point2;
+  Eigen::Vector3d v1 = point2 - point1;
   Eigen::Vector3d v2 = point3 - point1;
 
-  // Compute y axis as the vector between point1 & point2.
-  Eigen::Vector3d y_axis(v1.normalized());
+  // Compute x axis as the vector between point1 & point2.
+  Eigen::Vector3d x_axis(v1.normalized());
 
   // Compute z axis as the triangle normal.
   Eigen::Vector3d z_axis(v1.cross(v2).normalized());
 
-  // Compute the x axis as the cross product between the y & z axes.
-  Eigen::Vector3d x_axis(y_axis.cross(z_axis).normalized());
+  // Compute the y axis as the cross product between the z & x axes.
+  Eigen::Vector3d y_axis(z_axis.cross(x_axis).normalized());
 
   // Convert the pose into an Eigen::Isometry3d for computations & to get the quaternion orientation.
-  Eigen::Isometry3d detected_pose = Eigen::Isometry3d::Identity();
-  detected_pose.linear().col(0) = x_axis;
-  detected_pose.linear().col(1) = y_axis;
-  detected_pose.linear().col(2) = z_axis;
-  detected_pose.translation() = center_point;
+  Eigen::Isometry3d camera_to_calibration_tool = Eigen::Isometry3d::Identity();
+  camera_to_calibration_tool.linear().col(0) = x_axis;
+  camera_to_calibration_tool.linear().col(1) = y_axis;
+  camera_to_calibration_tool.linear().col(2) = z_axis;
+  camera_to_calibration_tool.translation() = center_point;
 
-  if (auto determinant = detected_pose.rotation().determinant();
-      abs(determinant - 1) > std::numeric_limits<double>::epsilon())
+  if (auto determinant = camera_to_calibration_tool.rotation().determinant();
+      abs(determinant) - 1 > std::numeric_limits<double>::epsilon())
   {
     shared_resources_->logger->publishFailureMessage(fmt::format(
       "Rotation matrix of computed pose is not normalized. Determinant={}",
@@ -103,22 +112,36 @@ BT::NodeStatus CalibrateCameraPose::tick()
     return BT::NodeStatus::FAILURE;
   }
 
-  Eigen::Quaterniond orientation(detected_pose.rotation());
+  // Get the transform from the base frame to the calibration tool.
+  if (!shared_resources_->transform_buffer_ptr->canTransform(base_frame, calibration_tool_frame, tf2::TimePointZero))
+  {
+    shared_resources_->logger->publishFailureMessage(fmt::format("Cannot transform between '{}' and '{}'", calibration_tool_frame, base_frame));
+    return BT::NodeStatus::FAILURE;
+  }
+  geometry_msgs::msg::TransformStamped base_to_calibration_tool_tf = shared_resources_->transform_buffer_ptr->
+      lookupTransform(base_frame, calibration_tool_frame, tf2::TimePointZero);
+  Eigen::Isometry3d base_to_calibration_tool = tf2::transformToEigen(base_to_calibration_tool_tf);
 
-  // TODO: need to grab the base frame & calibration tool frame to transform the frame to the camera pose in the base frame.
+  // Compute the pose of the camera optical frame in the base frame.
+  Eigen::Isometry3d base_to_camera = base_to_calibration_tool  * camera_to_calibration_tool.inverse();
 
   // Create the PoseStamped object to return.
   geometry_msgs::msg::PoseStamped computed_pose;
   computed_pose.header.frame_id = base_frame;
-  computed_pose.pose.position.x = center_point(0);
-  computed_pose.pose.position.y = center_point(1);
-  computed_pose.pose.position.z = center_point(2);
-  computed_pose.pose.orientation.w = orientation.w();
-  computed_pose.pose.orientation.x = orientation.x();
-  computed_pose.pose.orientation.y = orientation.y();
-  computed_pose.pose.orientation.z = orientation.z();
+  computed_pose.pose = tf2::toMsg(base_to_camera);
 
   setOutput(kPortIDComputedPose, computed_pose);
+
+  // DEBUG output
+  geometry_msgs::msg::PoseStamped camera_calibration_pose;
+  camera_calibration_pose.header.frame_id = base_frame; // TODO: what frame here??
+  camera_calibration_pose.pose = tf2::toMsg(camera_to_calibration_tool);
+  setOutput(kPortIDDebugCameraCalibPose, camera_calibration_pose);
+
+  geometry_msgs::msg::PoseStamped base_calibration_pose;
+  base_calibration_pose.header.frame_id = base_frame;
+  base_calibration_pose.pose = tf2::toMsg(base_to_calibration_tool);
+  setOutput(kPortIDDebugBaseCalibPose, base_calibration_pose);
 
   return BT::NodeStatus::SUCCESS;
 }
