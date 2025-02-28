@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<launch>
+    <node pkg="zed_open_capture_ros" exec="zed_open_capture_ros" name="zed_camera" namespace=""/>
+</launch>

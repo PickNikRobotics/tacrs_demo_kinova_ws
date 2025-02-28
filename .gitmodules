@@ -7,9 +7,21 @@
 [submodule "src/dependencies/picknik_accessories"]
 	path = src/dependencies/picknik_accessories
 	url = git@github.com:PickNikRobotics/picknik_accessories.git
+[submodule "src/dependencies/ros2_kortex"]
+	path = src/dependencies/ros2_kortex
+	url = https://github.com/Kinovarobotics/ros2_kortex.git
 [submodule "src/dependencies/ros2_robotiq_gripper"]
 	path = src/dependencies/ros2_robotiq_gripper
 	url = git@github.com:PickNikRobotics/ros2_robotiq_gripper.git
 [submodule "src/dependencies/serial"]
 	path = src/dependencies/serial
 	url = https://github.com/tylerjw/serial.git
+[submodule "src/dependencies/ros2_kortex_vision"]
+	path = src/dependencies/ros2_kortex_vision
+	url = git@github.com:PickNikRobotics/ros2_kortex_vision.git
+[submodule "src/dependencies/rq_fts_ros2_driver"]
+	path = src/dependencies/rq_fts_ros2_driver
+	url = git@github.com:PickNikRobotics/rq_fts_ros2_driver.git
+[submodule "src/dependencies/zed_open_capture_ros"]
+	path = src/dependencies/zed_open_capture_ros
+	url = git@github.com:PickNikRobotics/zed_open_capture_ros.git
