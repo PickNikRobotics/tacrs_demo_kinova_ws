@@ -4,7 +4,7 @@ project(calibration_behaviors CXX)
 find_package(moveit_studio_common REQUIRED)
 moveit_studio_package()
 
-set(THIS_PACKAGE_INCLUDE_DEPENDS moveit_studio_behavior_interface pluginlib geometry_msgs Eigen3 tf2 tf2_eigen)
+set(THIS_PACKAGE_INCLUDE_DEPENDS moveit_studio_behavior_interface moveit_studio_common pluginlib geometry_msgs tf2_geometry_msgs Eigen3 tf2 tf2_eigen yaml-cpp)
 foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${package} REQUIRED)
 endforeach()
@@ -12,8 +12,9 @@ endforeach()
 add_library(
   calibration_behaviors
   SHARED
-  src/calibrate_camera_pose.cpp
   src/average_pose_stamped_vector.cpp
+  src/calibrate_camera_pose.cpp
+  src/save_calibration_pose_yaml.cpp
   src/register_behaviors.cpp)
 target_include_directories(
   calibration_behaviors
