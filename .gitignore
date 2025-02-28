@@ -2,5 +2,6 @@
 build/
 install/
 log/
+cmake-build-debug/
 
 **__pycache__
