@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Scene Camera">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Scene Camera" _description="" _favorite="false" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="LoadObjectiveParameters" parameters="{parameters}" config_file_name="51mm_apriltag_detection_config.yaml"/>
+      <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_1"/>
+      <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_2"/>
+      <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_3"/>
+      <Decorator ID="ForEach" index="{index}" out="{calibrated_pose}" vector_in="{computed_poses_vector}">
+        <Control ID="Sequence" name="TopLevelSequence">
+          <Action ID="SavePoseStampedToYaml" message="{calibrated_pose}" yaml_filename="scene_camera_calibration_pose.yaml"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{calibrated_pose}" name="Zed Camera Pose" marker_name="Calibrated camera pose"/>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Scene Camera"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>

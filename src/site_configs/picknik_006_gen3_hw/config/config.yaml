@@ -45,6 +45,9 @@ hardware:
       - robotiq_fts: "true"
       - gripper_com_port: "/dev/ttyUSB0"  # Must be plugged in 1st to populate as ttyUSB0
       - fts_com_port: "ttyUSB1"           # Must be plugged in 2nd to populate as ttyUSB1
+      - scene_camera_calibration_file:
+          package: "picknik_006_gen3_hw"
+          path: "objectives/scene_camera_calibration.yaml"
 
 
 # Configuration for launching ros2_control processes.
@@ -71,6 +74,13 @@ ros2_control:
 # Configuration for loading behaviors and objectives.
 # [Required]
 objectives:
+  behavior_loader_plugins:
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
+      - "moveit_studio::behaviors::ServoBehaviorsLoader"
+      - "moveit_studio::behaviors::VisionBehaviorsLoader"
+      - "calibration_behaviors::CalibrationBehaviorsLoader"
   # Specify source folder for objectives
   # [Required]
   objective_library_paths:
