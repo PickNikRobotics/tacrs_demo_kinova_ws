@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Test Save Calibration">
+  <!--//////////-->
+  <BehaviorTree ID="Test Save Calibration" _description="" _favorite="false" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{stamped_pose}"/>
+      <Action ID="SaveCalibrationPoseYaml" calibration_pose_stamped="{stamped_pose}" file_path="calibration_pose.yaml"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Test Save Calibration"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Add AprilTag Pose To Vector">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Add AprilTag Pose To Vector"
+    _subtreeOnly="true"
+    detections="{detections}"
+    pose_vector_to_append="{pose_stamped_vector}"
+    target_id="-1"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="GetDetectionPose"
+        detection_pose="{detection_pose}"
+        detections="{detections}"
+        name="TopLeft"
+        target_id="{target_id}"
+      />
+      <Action
+        ID="AddPoseStampedToVector"
+        input="{detection_pose}"
+        vector="{pose_stamped_vector}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Add AprilTag Pose To Vector">
+      <input_port name="detections" default="{detections}" />
+      <inout_port name="pose_stamped_vector" default="{pose_stamped_vector}" />
+      <input_port name="target_id" default="-1" />
+    </SubTree>
+  </TreeNodesModel>
+</root>

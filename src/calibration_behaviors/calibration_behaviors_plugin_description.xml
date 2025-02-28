@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<library path="calibrate_camera_pose">
+<library path="calibration_behaviors">
   <class
-    type="calibrate_camera_pose::CalibrateCameraPoseBehaviorsLoader"
+    type="calibration_behaviors::CalibrationBehaviorsLoader"
     base_class_type="moveit_studio::behaviors::SharedResourcesNodeLoaderBase"
   />
 </library>

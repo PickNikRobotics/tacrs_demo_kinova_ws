@@ -1,4 +1,4 @@
-#include "calibrate_camera_pose/calibrate_camera_pose.hpp"
+#include "calibration_behaviors/calibrate_camera_pose.hpp"
 
 #include <vector>
 
@@ -19,7 +19,7 @@ namespace
   constexpr auto kPortIDDebugCameraCalibPose = "debug_camera_calibration_pose";
 }
 
-namespace calibrate_camera_pose
+namespace calibration_behaviors
 {
   CalibrateCameraPose::CalibrateCameraPose(const std::string &name, const BT::NodeConfiguration &config,
                                            const std::shared_ptr<moveit_studio::behaviors::BehaviorContext> &
@@ -34,7 +34,7 @@ BT::PortsList CalibrateCameraPose::providedPorts()
   return BT::PortsList({
     BT::InputPort<std::vector<geometry_msgs::msg::PoseStamped>>(kPortIDDetectedPoses, "{detected_poses}",
                                                                  "Vector of the detected poses."),
-    BT::InputPort<std::string>(kPortIDCalibrationToolFrame, "calibration_tool_frame",
+    BT::InputPort<std::string>(kPortIDCalibrationToolFrame, "calibration_tool_link",
                                "Frame of the calibration tool. Must be a part of the robot kinematic chain."),
     BT::InputPort<std::string>(kPortIDBaseFrame, "base_link",
                                "Frame the output computed pose should be represented in. Must be a part of the robot kinematic chain."),

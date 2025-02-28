@@ -1,4 +1,0 @@
-objectives:
-  behavior_loader_plugins:
-    calibrate_camera_pose:
-      - "calibrate_camera_pose::CalibrateCameraPoseBehaviorsLoader"

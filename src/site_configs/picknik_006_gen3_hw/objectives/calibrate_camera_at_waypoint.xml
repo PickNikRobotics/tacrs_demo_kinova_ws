@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Camera at Waypoint">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Camera at Waypoint" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Decorator ID="RetryUntilSuccessful" num_attempts="2">
+        <SubTree
+          ID="Move to Waypoint"
+          _collapsed="true"
+          acceleration_scale_factor="1.0"
+          controller_action_server="/joint_trajectory_controller/follow_joint_trajectory"
+          controller_names="/joint_trajectory_controller"
+          joint_group_name="manipulator"
+          keep_orientation="false"
+          keep_orientation_tolerance="0.05"
+          link_padding="0.01"
+          velocity_scale_factor="1.0"
+          waypoint_name="{waypoint_name}"
+        />
+      </Decorator>
+      <Action
+        ID="WaitForDuration"
+        delay_duration="1.0"
+        name="To settle any vibrations"
+      />
+      <Decorator ID="RetryUntilSuccessful" num_attempts="5">
+        <SubTree
+          ID="Calibrate Zed Camera From 3-Tag Cross"
+          _collapsed="true"
+          computed_pose="{computed_pose}"
+          parameters="{parameters}"
+        />
+      </Decorator>
+      <Action
+        ID="AddPoseStampedToVector"
+        input="{computed_pose}"
+        vector="{computed_poses_vector}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Camera at Waypoint">
+      <input_port name="waypoint_name" default="{waypoint_name}" />
+      <inout_port
+        name="computed_poses_vector"
+        default="{computed_poses_vector}"
+      />
+      <input_port name="parameters" default="{parameters}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>
