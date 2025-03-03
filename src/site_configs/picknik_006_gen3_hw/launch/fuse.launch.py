@@ -37,12 +37,18 @@ def generate_launch_description():
                 executable="static_transform_publisher",
                 arguments=["0", "0", "0", "0", "0", "0", "world", "map"],
             ),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                arguments=["0", "0", "0", "0", "0", "0", "zed_cam_color_optical_frame", "zed_left_camera_optical_frame"],
+            ),
 
             # Set the rigid transforms between the AR tags and the target frame to be tracked.
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
-                arguments=["0.115", "0.100", "0", "0", "0", "0", "satellite_tag_2901", "target_frame_satellite_tag_2901"],
+                arguments=["0", "0", "0", "0", "0", "0", "satellite_tag_2901", "target_frame_satellite_tag_2901"],
+                # arguments=["0.115", "0.100", "0", "0", "0", "0", "satellite_tag_2901", "target_frame_satellite_tag_2901"],
             ),
             Node(
                 package="tf2_ros",

@@ -10,7 +10,7 @@ Panels:
         - /RobotModel1
         - /TF1
         - /TF1/Frames1
-      Splitter Ratio: 0.5558823347091675
+      Splitter Ratio: 0.7647058963775635
     Tree Height: 555
   - Class: rviz_common/Selection
     Name: Selection
@@ -118,11 +118,28 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        end_effector_link:
+        calibration_tool_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        external_camera_link:
+        calibration_tool_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        end_effector_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -136,20 +153,45 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        fts_coupling_adapter_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fts_coupling_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         fts_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         grasp_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        gripper_attachment_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        gripper_plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         half_arm_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         half_arm_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -199,47 +241,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        scene_camera_bottom_screw_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_color_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_color_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_infra1_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_infra1_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_infra2_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_infra2_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        scene_camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         shoulder_link:
           Alpha: 1
           Show Axes: false
@@ -260,7 +261,57 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        wall:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        zed_cam_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        zed_cam_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -281,32 +332,44 @@ Visualization Manager:
           Value: false
         bracelet_link:
           Value: false
-        end_effector_link:
+        calibration_tool_frame:
           Value: false
-        external_camera_link:
+        calibration_tool_link:
+          Value: false
+        camera_color_frame:
+          Value: false
+        camera_depth_frame:
+          Value: false
+        camera_link:
+          Value: false
+        end_effector_link:
           Value: false
         finger_tip_closed_point:
           Value: false
         forearm_link:
           Value: false
-        fts:
+        fts_coupling_adapter_link:
+          Value: false
+        fts_coupling_link:
           Value: false
         fts_link:
           Value: false
         grasp_link:
+          Value: false
+        gripper_attachment_link:
+          Value: false
+        gripper_plate_link:
           Value: false
         half_arm_1_link:
           Value: false
         half_arm_2_link:
           Value: false
         map:
-          Value: true
-        mj_world:
+          Value: false
+        mount_link:
           Value: false
         odom:
           Value: true
-        pinch:
-          Value: false
         robotiq_85_base_link:
           Value: false
         robotiq_85_left_finger_link:
@@ -325,29 +388,13 @@ Visualization Manager:
           Value: false
         robotiq_85_right_knuckle_link:
           Value: false
-        satellite_tag_0:
+        satellite_tag_2901:
           Value: true
-        scene_camera_bottom_screw_frame:
-          Value: false
-        scene_camera_color_frame:
-          Value: false
-        scene_camera_color_optical_frame:
-          Value: false
-        scene_camera_depth_frame:
-          Value: false
-        scene_camera_depth_optical_frame:
-          Value: false
-        scene_camera_infra1_frame:
-          Value: false
-        scene_camera_infra1_optical_frame:
-          Value: false
-        scene_camera_infra2_frame:
-          Value: false
-        scene_camera_infra2_optical_frame:
-          Value: false
-        scene_camera_link:
-          Value: false
-        scene_camera_optical_frame:
+        satellite_tag_2902:
+          Value: true
+        satellite_tag_2903:
+          Value: true
+        satellite_tag_2904:
           Value: true
         shoulder_link:
           Value: false
@@ -357,78 +404,125 @@ Visualization Manager:
           Value: false
         table:
           Value: false
-        target_frame_satellite_tag_0:
+        target_frame_satellite_tag_2901:
+          Value: true
+        target_frame_satellite_tag_2902:
+          Value: true
+        target_frame_satellite_tag_2903:
+          Value: true
+        target_frame_satellite_tag_2904:
+          Value: true
+        wall:
           Value: true
         world:
           Value: true
-        wrist_camera_optical_frame:
+        zed_cam_bottom_screw_frame:
           Value: false
+        zed_cam_color_frame:
+          Value: true
+        zed_cam_color_optical_frame:
+          Value: true
+        zed_cam_depth_frame:
+          Value: false
+        zed_cam_depth_optical_frame:
+          Value: false
+        zed_cam_infra1_frame:
+          Value: false
+        zed_cam_infra1_optical_frame:
+          Value: false
+        zed_cam_infra2_frame:
+          Value: false
+        zed_cam_infra2_optical_frame:
+          Value: false
+        zed_cam_link:
+          Value: false
+        zed_cam_mount_link:
+          Value: false
+        zed_left_camera_optical_frame:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: false
       Tree:
-        mj_world:
-          fts:
+        world:
+          base_link:
+            shoulder_link:
+              half_arm_1_link:
+                half_arm_2_link:
+                  forearm_link:
+                    spherical_wrist_1_link:
+                      spherical_wrist_2_link:
+                        bracelet_link:
+                          end_effector_link:
+                            camera_color_frame:
+                              {}
+                            camera_depth_frame:
+                              {}
+                            camera_link:
+                              {}
+                            fts_coupling_adapter_link:
+                              fts_coupling_link:
+                                fts_link:
+                                  gripper_plate_link:
+                                    gripper_attachment_link:
+                                      robotiq_85_base_link:
+                                        finger_tip_closed_point:
+                                          {}
+                                        grasp_link:
+                                          calibration_tool_link:
+                                            calibration_tool_frame:
+                                              {}
+                                        robotiq_85_left_inner_knuckle_link:
+                                          {}
+                                        robotiq_85_left_knuckle_link:
+                                          robotiq_85_left_finger_link:
+                                            robotiq_85_left_finger_tip_link:
+                                              {}
+                                        robotiq_85_right_inner_knuckle_link:
+                                          {}
+                                        robotiq_85_right_knuckle_link:
+                                          robotiq_85_right_finger_link:
+                                            robotiq_85_right_finger_tip_link:
+                                              {}
+            zed_cam_mount_link:
+              zed_cam_bottom_screw_frame:
+                zed_cam_link:
+                  zed_cam_color_frame:
+                    zed_cam_color_optical_frame:
+                      zed_left_camera_optical_frame:
+                        satellite_tag_2901:
+                          target_frame_satellite_tag_2901:
+                            {}
+                        satellite_tag_2902:
+                          target_frame_satellite_tag_2902:
+                            {}
+                        satellite_tag_2903:
+                          target_frame_satellite_tag_2903:
+                            {}
+                        satellite_tag_2904:
+                          target_frame_satellite_tag_2904:
+                            {}
+                  zed_cam_depth_frame:
+                    zed_cam_depth_optical_frame:
+                      {}
+                  zed_cam_infra1_frame:
+                    zed_cam_infra1_optical_frame:
+                      {}
+                  zed_cam_infra2_frame:
+                    zed_cam_infra2_optical_frame:
+                      {}
+          map:
             {}
-          pinch:
+          mount_link:
             {}
-          scene_camera_optical_frame:
+          odom:
             {}
-          world:
-            base_link:
-              shoulder_link:
-                half_arm_1_link:
-                  half_arm_2_link:
-                    forearm_link:
-                      spherical_wrist_1_link:
-                        spherical_wrist_2_link:
-                          bracelet_link:
-                            end_effector_link:
-                              fts_link:
-                                robotiq_85_base_link:
-                                  finger_tip_closed_point:
-                                    {}
-                                  grasp_link:
-                                    {}
-                                  robotiq_85_left_inner_knuckle_link:
-                                    {}
-                                  robotiq_85_left_knuckle_link:
-                                    robotiq_85_left_finger_link:
-                                      robotiq_85_left_finger_tip_link:
-                                        {}
-                                  robotiq_85_right_inner_knuckle_link:
-                                    {}
-                                  robotiq_85_right_knuckle_link:
-                                    robotiq_85_right_finger_link:
-                                      robotiq_85_right_finger_tip_link:
-                                        {}
-            external_camera_link:
-              scene_camera_bottom_screw_frame:
-                scene_camera_link:
-                  scene_camera_color_frame:
-                    scene_camera_color_optical_frame:
-                      {}
-                  scene_camera_depth_frame:
-                    scene_camera_depth_optical_frame:
-                      {}
-                  scene_camera_infra1_frame:
-                    scene_camera_infra1_optical_frame:
-                      {}
-                  scene_camera_infra2_frame:
-                    scene_camera_infra2_optical_frame:
-                      {}
-            map:
-              {}
-            odom:
-              {}
-            table:
-              {}
-          wrist_camera_optical_frame:
-            satellite_tag_0:
-              target_frame_satellite_tag_0:
-                {}
+          table:
+            {}
+          wall:
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -477,25 +571,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.2315683364868164
+      Distance: 2.246166706085205
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: -0.11341874301433563
+        Y: 0.057029061019420624
+        Z: 0.28447890281677246
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4003983736038208
+      Pitch: 0.3003981411457062
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.708583354949951
+      Yaw: 0.7804023027420044
     Saved: ~
 Window Geometry:
   Displays:
@@ -513,5 +607,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 2580
+  X: 1360
   Y: 94

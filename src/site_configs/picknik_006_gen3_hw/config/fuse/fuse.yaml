@@ -2,7 +2,7 @@
 state_estimator:
   ros__parameters:
     # Fixed-lag smoother configuration
-    optimization_frequency: 100.0
+    optimization_frequency: 10.0
     transaction_timeout: 0.01
     lag_duration: 0.01
 
@@ -14,7 +14,8 @@ state_estimator:
     3d_motion_model:
       # x, y, z, roll, pitch, yaw, x_vel, y_vel, z_vel, roll_vel, pitch_vel, yaw_vel, x_acc, y_acc, z_acc
       # use high values for the acceleration process noise because we aren't measuring the applied forces
-      process_noise_diagonal: [0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.01, 0.01, 0.01]
+      process_noise_diagonal: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+      # process_noise_diagonal: [0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.01, 0.01, 0.01]
 
     sensor_models:
       initial_localization_sensor:
@@ -38,7 +39,8 @@ state_estimator:
       # the target frame should be the center of mass of the object for optimal performance, as the motion model assumes that it is operating on the center of mass of the object
       # the april tag (`satellite_tag_x`) will be a descendent of the estimation frame (`servicer_camera_optical_frame`) in the tf tree
       # thus, we need a different leaf in the tf tree to represent each satellite tag's correspondence to the target frame
-      transforms: ['satellite_tag_2901', 'satellite_tag_2902', 'satellite_tag_2903', 'satellite_tag_2904']
+      transforms: ['satellite_tag_2901']
+      # transforms: ['satellite_tag_2901', 'satellite_tag_2902', 'satellite_tag_2903', 'satellite_tag_2904']
 
       # this frame is the frame that we are actually estimating
       # fuse will publish an odom from the `estimation_frame` to this frame (and optionally a tf, too)
@@ -46,11 +48,11 @@ state_estimator:
 
       # this is the frame that all transforms should be parented to for fuse to use as a measurement
       # thus a measurement will be a tf from `estimation_frame` to any frame in `transforms` (see above)
-      estimation_frame: 'scene_camera_optical_frame'
+      estimation_frame: 'zed_left_camera_optical_frame'
       position_dimensions: ['x', 'y', 'z']
       orientation_dimensions: ['roll', 'pitch', 'yaw']
       # TODO(anyone): set these empirically (collect data and estimate covariances) instead of just with arbitrary values
-      pose_covariance: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+      pose_covariance: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
       tf_timeout: 0.01
 
     # this publishes our estimated odometry
@@ -71,15 +73,15 @@ state_estimator:
       odom_frame_id: 'odom'
 
       # this should be the same as `estimation_frame` in `transform_sensor` above
-      map_frame_id: 'scene_camera_optical_frame'
+      map_frame_id: 'zed_left_camera_optical_frame'
       # this should be the same as `map_frame_id`
-      world_frame_id: 'scene_camera_optical_frame'
+      world_frame_id: 'zed_left_camera_optical_frame'
 
       # optionally publish a tf
       publish_tf: true
 
       # how often to publish our estimates
-      publish_frequency: 100.0
+      publish_frequency: 10.0
 
       # without this, our estimate won't be updated without a measurement
       predict_to_current_time: true
