@@ -15,9 +15,9 @@ launch:
       namespace: apriltag
       remap:
       - from: /apriltag/image_rect
-        to: /wrist_camera/color
+        to: /zed2i_camera/left/image_raw_color
       - from: /apriltag/camera_info
-        to: /wrist_camera/camera_info
+        to: /zed2i_camera/left/camera_info
       param:
       - from: $(find-pkg-share picknik_006_gen3_hw)/launch/tags_36h11.yaml
       extra_arg:

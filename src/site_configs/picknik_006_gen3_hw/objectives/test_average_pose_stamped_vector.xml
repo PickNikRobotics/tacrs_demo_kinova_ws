@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Test Average Pose Stamped Vector">
+  <!--//////////-->
+  <BehaviorTree ID="Test Average Pose Stamped Vector" _description="" _favorite="false" _subtreeOnly="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{pose1}"/>
+      <Action ID="AddPoseStampedToVector" input="{pose1}" vector="{pose_stamped_vector}"/>
+      <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{pose2}"/>
+      <Action ID="AddPoseStampedToVector" input="{input_pose}" vector="{pose_stamped_vector}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Test Average Pose Stamped Vector"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>
