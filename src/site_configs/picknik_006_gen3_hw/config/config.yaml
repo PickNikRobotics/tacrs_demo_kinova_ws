@@ -92,3 +92,10 @@ objectives:
   waypoints_file:
     package_name: "picknik_006_gen3_hw"
     relative_path: "waypoints/waypoints.yaml"
+
+moveit_params:
+  joint_group_name: "manipulator"
+
+  joint_limits:
+    package: "picknik_006_gen3_hw"
+    path: "config/moveit/joint_limits.yaml"

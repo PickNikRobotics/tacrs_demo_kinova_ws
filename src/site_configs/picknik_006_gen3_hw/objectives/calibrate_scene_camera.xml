@@ -7,9 +7,18 @@
       <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_1"/>
       <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_2"/>
       <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_3"/>
-      <Action ID="AveragePoseStampedVector" average_pose_stamped="{calibrated_pose}" pose_stamped_vector="{computed_poses_vector}"/>
-      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{calibrated_pose}" name="Zed Camera Pose" marker_name="Calibrated camera pose"/>
-      <Action ID="SaveCalibrationPoseYaml" calibration_pose_stamped="{calibrated_pose}" file_name="calibration_pose.yaml"/>
+      <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_4"/>
+      <SubTree ID="Calibrate Camera at Waypoint" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_5"/>
+      <Decorator ID="ForEach" index="{index}" out="{out}" vector_in="{computed_poses_vector}">
+        <Control ID="Sequence" name="TopLevelSequence">
+          <Action ID="Script" code="name := index"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.05" pose="{out}" name="Avg Pose Per Waypoint" marker_name="{name}"/>
+        </Control>
+      </Decorator>
+      <Action ID="AveragePoseStampedVector" average_pose_stamped="{calibrated_optical_pose}" pose_stamped_vector="{computed_poses_vector}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{calibrated_optical_pose}" name="Calibrated Optical Pose" marker_name="Calibrated optical pose"/>
+      <Action ID="TransformPose" input_pose="{calibrated_optical_pose}" output_pose="{camera_pose}" quaternion_xyzw=".5;-.5;.5;.5"/>
+      <Action ID="SaveCalibrationPoseYaml" calibration_pose_stamped="{camera_pose}" file_name="calibration_pose.yaml"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
