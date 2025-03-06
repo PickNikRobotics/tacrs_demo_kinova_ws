@@ -61,7 +61,7 @@ BT::NodeStatus SaveCalibrationPoseYaml::tick()
 
   // Create the YAML to save.
   YAML::Node node;
-  std::string calibration_data_str = "calibration_data";
+  std::string calibration_data_str = "camera_pose";
   node[calibration_data_str]["x"] = pose_stamped.pose.position.x;
   node[calibration_data_str]["y"] = pose_stamped.pose.position.y;
   node[calibration_data_str]["z"] = pose_stamped.pose.position.z;

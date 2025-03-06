@@ -47,7 +47,7 @@ averageQuaternions(const std::vector<geometry_msgs::msg::PoseStamped>& pose_samp
     Eigen::Vector4d eigvector = eigensolver.eigenvectors().col(idx).real();
 
     // Need to convert to tf2::Quaternion object
-    Eigen::Quaterniond avg_q(eigvector[0], eigvector[1], eigvector[2], eigvector[3]);
+    Eigen::Quaterniond avg_q(eigvector[3], eigvector[0], eigvector[1], eigvector[2]);
 
     // Normalize the quaternion
     avg_q.normalize();
