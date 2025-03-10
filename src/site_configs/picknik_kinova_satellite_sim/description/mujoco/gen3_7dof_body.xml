@@ -317,43 +317,87 @@
                               />
                             </body>
                             <!--                              TODO uncomment to enable RAFTI fingers -->
-                            <body
-                              name="right_rafti_finger_link"
-                              pos="0 0 0.01"
-                              quat="0 0 0 1"
-                            >
-                              <inertial
-                                mass="0.005"
-                                pos="0 0 0"
-                                diaginertia="8.96853e-06 6.71733e-06 2.63931e-06"
-                              />
-                              <geom
-                                class="visual"
-                                mesh="rafti_finger"
-                                material="black"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_1"
-                                condim="6"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_2"
-                                condim="6"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_3"
-                                condim="6"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_4"
-                                condim="6"
-                              />
-                            </body>
+<!--                            <body-->
+<!--                              name="right_rafti_finger_link"-->
+<!--                              pos="0 0 0.01"-->
+<!--                              quat="0 0 0 1"-->
+<!--                            >-->
+<!--                              <inertial-->
+<!--                                mass="0.005"-->
+<!--                                pos="0 0 0"-->
+<!--                                diaginertia="8.96853e-06 6.71733e-06 2.63931e-06"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="visual"-->
+<!--                                mesh="rafti_finger"-->
+<!--                                material="black"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_1"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_2"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_3"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_4"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                            </body>-->
                           </body>
+                        </body>
+                      </body>
+                      <body
+                        name="calibration_tool"
+                        gravcomp="1"
+                        pos="0 0 0.169"
+                        quat="-0.7071 0 0 0.7071">
+                        <geom
+                          class="visual"
+                          mesh="calibration_tool"
+                          material="gray"
+                        />
+                        <geom
+                          class="collision"
+                          mesh="calibration_tool_collision_0"
+                        />
+                        <geom
+                          class="collision"
+                          mesh="calibration_tool_collision_1"
+                        />
+                        <geom
+                          class="collision"
+                          mesh="calibration_tool_collision_2"
+                        />
+                        <body name="april_tag_0" pos="0.08625 -0.04925 -0.01" quat="0 0 0 1">
+                          <geom
+                                  type="box"
+                                  size="0.031875 0.031875 0.0001"
+                                  rgba="1 1 1 1"
+                                  material="ar_marker_0"/>
+                        </body>
+                        <body name="april_tag_1" pos="-0.08625 -0.04925 -0.01" quat="0 0 0 1">
+                          <geom
+                                  type="box"
+                                  size="0.031875 0.031875 0.0001"
+                                  rgba="1 1 1 1"
+                                  material="ar_marker_1"/>
+                        </body>
+                        <body name="april_tag_2" pos="0.0 -0.18125 -0.01" quat="0 0 0 1">
+                          <geom
+                                  type="box"
+                                  size="0.031875 0.031875 0.0001"
+                                  rgba="1 1 1 1"
+                                  material="ar_marker_2"/>
                         </body>
                       </body>
                       <!-- Left-hand side 4-bar linkage -->
@@ -475,38 +519,38 @@
                               />
                             </body>
                             <!--                              TODO uncomment to enable RAFTI fingers -->
-                            <body
-                              name="left_rafti_finger_link"
-                              pos="0 0 0.01"
-                              quat="0 0 0 1"
-                            >
-                              <inertial mass="0.005" pos="0 0 0" />
-                              <geom
-                                class="visual"
-                                mesh="rafti_finger"
-                                material="black"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_1"
-                                condim="6"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_2"
-                                condim="6"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_3"
-                                condim="6"
-                              />
-                              <geom
-                                class="collision"
-                                mesh="rafti_finger_collision_4"
-                                condim="6"
-                              />
-                            </body>
+<!--                            <body-->
+<!--                              name="left_rafti_finger_link"-->
+<!--                              pos="0 0 0.01"-->
+<!--                              quat="0 0 0 1"-->
+<!--                            >-->
+<!--                              <inertial mass="0.005" pos="0 0 0" />-->
+<!--                              <geom-->
+<!--                                class="visual"-->
+<!--                                mesh="rafti_finger"-->
+<!--                                material="black"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_1"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_2"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_3"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                              <geom-->
+<!--                                class="collision"-->
+<!--                                mesh="rafti_finger_collision_4"-->
+<!--                                condim="6"-->
+<!--                              />-->
+<!--                            </body>-->
                           </body>
                         </body>
                       </body>
