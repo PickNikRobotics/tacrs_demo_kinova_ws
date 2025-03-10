@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Camera Test">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Camera Test" _subtreeOnly="false" _description="">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Decorator ID="RetryUntilSuccessful" num_attempts="2">
+        <SubTree ID="Move to Waypoint" _collapsed="true" acceleration_scale_factor="1.0" controller_action_server="/joint_trajectory_controller/follow_joint_trajectory" controller_names="/joint_trajectory_controller" joint_group_name="manipulator" keep_orientation="false" keep_orientation_tolerance="0.05" link_padding="0.01" velocity_scale_factor="1.0" waypoint_name="Calibrate_1"/>
+      </Decorator>
+      <Action ID="WaitForDuration" delay_duration="1.0" name="To settle any vibrations"/>
+      <Action ID="ResetPoseStampedVector" vector="{detected_poses}"/>
+      <Action ID="CreateStampedPose" reference_frame="april_tag_0" stamped_pose="{tag_0}"/>
+      <Action ID="TransformPoseFrame" input_pose="{tag_0}" output_pose="{tag_0_camrea}" target_frame_id="scene_camera_optical_frame"/>
+      <Action ID="CreateStampedPose" reference_frame="april_tag_1" stamped_pose="{tag_1}"/>
+      <Action ID="TransformPoseFrame" input_pose="{tag_1}" output_pose="{tag_1_camera}" target_frame_id="scene_camera_optical_frame"/>
+      <Action ID="CreateStampedPose" reference_frame="april_tag_2" stamped_pose="{tag_2}"/>
+      <Action ID="TransformPoseFrame" input_pose="{tag_2}" output_pose="{tag_2_camera}" target_frame_id="scene_camera_optical_frame"/>
+      <Action ID="AddPoseStampedToVector" input="{tag_1_camera}" vector="{detected_poses}"/>
+      <Action ID="AddPoseStampedToVector" input="{tag_0_camrea}" vector="{detected_poses}"/>
+      <Action ID="AddPoseStampedToVector" input="{tag_2_camera}" vector="{detected_poses}"/>
+      <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_frame" computed_pose="{computed_pose}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}" detected_poses="{detected_poses}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_name="pose" marker_size="0.100000" pose="{computed_pose}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Camera Test"><MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>
