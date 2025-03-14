@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="GetTagPose_from_PublishedFrame">
+  <!--//////////-->
+  <BehaviorTree
+    ID="GetTagPose_from_PublishedFrame"
+    _subtreeOnly="true"
+    tag_frame_name="{tag_frame}"
+    vector="{pose_stamped_vector}"
+    camera_frame="zed_left_camera_optical_frame"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        reference_frame="{tag_frame_name}"
+        stamped_pose="{stamped_pose}"
+      />
+      <Action
+        ID="TransformPoseFrame"
+        input_pose="{stamped_pose}"
+        output_pose="{stamped_pose}"
+        target_frame_id="{camera_frame}"
+      />
+      <Action
+        ID="AddPoseStampedToVector"
+        input="{stamped_pose}"
+        vector="{vector}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="GetTagPose_from_PublishedFrame">
+      <inout_port name="camera_frame" default="zed_left_camera_optical_frame" />
+      <inout_port name="tag_frame_name" default="{tag_frame}" />
+      <inout_port name="vector" default="{pose_stamped_vector}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>

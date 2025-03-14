@@ -134,7 +134,7 @@ BT::NodeStatus CalibrateCameraPose::tick()
 
   // DEBUG output
   geometry_msgs::msg::PoseStamped camera_calibration_pose;
-  camera_calibration_pose.header.frame_id = base_frame; // TODO: what frame here??
+  camera_calibration_pose.header.frame_id = "zed_left_camera_optical_frame"; // TODO: what frame here??
   camera_calibration_pose.pose = tf2::toMsg(camera_to_calibration_tool);
   setOutput(kPortIDDebugCameraCalibPose, camera_calibration_pose);
 
