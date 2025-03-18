@@ -32,14 +32,14 @@
           <Decorator ID="RetryUntilSuccessful" num_attempts="-1">
             <Control ID="Sequence">
               <Action ID="WaitForDuration" name="needed so agent doesn't crash" delay_duration="0.1"/>
-              <Action ID="IsPoseNearIdentity" pose="{error_pose}" position_tolerance="0.03" rotation_tolerance="0.2"/>
+              <Action ID="IsPoseNearIdentity" pose="{error_pose}" position_tolerance="0.02" rotation_tolerance="0.2"/>
             </Control>
           </Decorator>
-          <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{target_pose_offset}" orientation_xyzw="-0.7071068;0.7071068;0;0" position_xyz="0;0;0.15"/>
+          <Action ID="CreateStampedPose" reference_frame="world" stamped_pose="{target_pose_offset}" orientation_xyzw="-0.7071068;0.7071068;0;0" position_xyz="0;0;0.10"/>
           <Decorator ID="RetryUntilSuccessful" num_attempts="-1">
             <Control ID="Sequence">
               <Action ID="WaitForDuration" name="needed so agent doesn't crash" delay_duration="0.1"/>
-              <Action ID="IsPoseNearIdentity" pose="{error_pose}" position_tolerance="0.02" rotation_tolerance="0.1"/>
+              <Action ID="IsPoseNearIdentity" pose="{error_pose}" position_tolerance="0.01" rotation_tolerance="0.1"/>
             </Control>
           </Decorator>
           <SubTree ID="Close Gripper" _collapsed="true"/>
@@ -50,14 +50,7 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Grapple RAFTI - Kinova Hardware">
-      <MetadataFields>
-        <Metadata runnable="true"/>
-      </MetadataFields>
-      <MetadataFields>
-        <Metadata runnable="true"/>
-      </MetadataFields>
-    <MetadataFields>
+    <SubTree ID="Grapple RAFTI - Kinova Hardware"><MetadataFields>
         <Metadata runnable="true"/>
       </MetadataFields></SubTree>
   </TreeNodesModel>

@@ -7,11 +7,18 @@
       <Action ID="GetCameraInfo" message_out="{camera_info}" timeout_sec="2.0" topic_name="/zed2i_camera/left/camera_info"/>
       <Action ID="DetectAprilTags" camera_info="{camera_info}" detections="{detections}" image="{image}" parameters="{parameters}"/>
       <Action ID="ResetPoseStampedVector" vector="{pose_stamped_vector}"/>
-      <SubTree ID="Add AprilTag Pose To Vector" _collapsed="true" detections="{detections}" pose_stamped_vector="{pose_stamped_vector}" name="topRight" target_id="0"/>
-      <SubTree ID="Add AprilTag Pose To Vector" _collapsed="true" detections="{detections}" pose_stamped_vector="{pose_stamped_vector}" target_id="5" name="topLeft"/>
-      <SubTree ID="Add AprilTag Pose To Vector" _collapsed="true" detections="{detections}" pose_stamped_vector="{pose_stamped_vector}" target_id="3" name="bottom"/>
+      <SubTree ID="Add AprilTag Pose To Vector" _collapsed="true" detections="{detections}" pose_stamped_vector="{pose_stamped_vector}" name="topRight" target_id="0" pose_vector_to_append="{pose_stamped_vector}"/>
+      <SubTree ID="Add AprilTag Pose To Vector" _collapsed="true" detections="{detections}" pose_stamped_vector="{pose_stamped_vector}" target_id="5" name="topLeft" pose_vector_to_append="{pose_stamped_vector}"/>
+      <SubTree ID="Add AprilTag Pose To Vector" _collapsed="true" detections="{detections}" pose_stamped_vector="{pose_stamped_vector}" target_id="3" name="bottom" pose_vector_to_append="{pose_stamped_vector}"/>
+      <Decorator ID="ForEach" index="{index}" out="{out_tag_pose}" vector_in="{pose_stamped_vector}">
+        <Control ID="Sequence">
+          <Action ID="Script" code="name := index+100"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{out_tag_pose}" marker_name="{name}"/>
+        </Control>
+      </Decorator>
       <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_frame" computed_pose="{computed_pose}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}" detected_poses="{pose_stamped_vector}"/>
-      <Action ID="VisualizePose" marker_lifetime="0.0" marker_size="0.100000" pose="{base_to_calib_pose}" name="Single-Image Detected Cross" marker_name="Single-Image Detected Cross Pose"/>
+      <Action ID="VisualizePose" marker_lifetime="0.0" marker_size="0.100000" pose="{camera_to_calib_pose}" name="" marker_name="Tag center pose"/>
+      <Action ID="VisualizePose" marker_lifetime="0.0" marker_size="0.100000" pose="{base_to_calib_pose}" name="" marker_name="URDF Cross Pose"/>
       <Action ID="VisualizePose" marker_name="Single-Image Optical Pose" marker_size="0.100000" pose="{computed_pose}" name="Single-Image Camera Pose" marker_lifetime="0.0"/>
     </Control>
   </BehaviorTree>

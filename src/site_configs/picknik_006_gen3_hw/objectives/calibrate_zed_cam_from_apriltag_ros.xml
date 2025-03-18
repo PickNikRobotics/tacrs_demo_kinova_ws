@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Zed Cam from apriltag_ros">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Zed Cam from apriltag_ros" _subtreeOnly="true" computed_pose="{computed_pose}" parameters="{parameters}" _description="Use apriltag_ros detection to match Fuse tag detection.">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="ResetPoseStampedVector" vector="{pose_stamped_vector}"/>
+      <SubTree ID="GetTagPose_from_PublishedFrame" _collapsed="true" camera_frame="zed_left_camera_optical_frame" tag_frame_name="satellite_tag_2904" vector="{pose_stamped_vector}"/>
+      <SubTree ID="GetTagPose_from_PublishedFrame" _collapsed="true" camera_frame="zed_left_camera_optical_frame" tag_frame_name="satellite_tag_2901" vector="{pose_stamped_vector}"/>
+      <SubTree ID="GetTagPose_from_PublishedFrame" _collapsed="true" camera_frame="zed_left_camera_optical_frame" tag_frame_name="satellite_tag_2903" vector="{pose_stamped_vector}"/>
+      <Decorator ID="ForEach" index="{index}" out="{out_tag_pose}" vector_in="{pose_stamped_vector}">
+        <Control ID="Sequence">
+          <Action ID="Script" code="name := index+100"/>
+          <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{out_tag_pose}" marker_name="{name}"/>
+        </Control>
+      </Decorator>
+      <Action ID="CalibrateCameraPose" base_link="base_link" calibration_tool_frame="calibration_tool_frame" computed_pose="{computed_pose}" debug_base_calibration_pose="{base_to_calib_pose}" debug_camera_calibration_pose="{camera_to_calib_pose}" detected_poses="{pose_stamped_vector}"/>
+      <Action ID="VisualizePose" marker_lifetime="0.0" marker_size="0.100000" pose="{camera_to_calib_pose}" name="" marker_name="Tag center pose"/>
+      <Action ID="VisualizePose" marker_lifetime="0.0" marker_size="0.100000" pose="{base_to_calib_pose}" name="" marker_name="URDF Cross Pose"/>
+      <Action ID="VisualizePose" marker_name="Single-Image Optical Pose" marker_size="0.100000" pose="{computed_pose}" name="" marker_lifetime="0.0"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Zed Cam from apriltag_ros">
+      <output_port name="computed_pose" default="{computed_pose}"/>
+      <input_port name="parameters" default="{parameters}"/>
+    <MetadataFields>
+        <Metadata runnable="false"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>

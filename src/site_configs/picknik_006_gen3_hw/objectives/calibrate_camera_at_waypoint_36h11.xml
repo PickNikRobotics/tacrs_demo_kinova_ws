@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Calibrate Camera at Waypoint 36h11">
+  <!--//////////-->
+  <BehaviorTree ID="Calibrate Camera at Waypoint 36h11" _subtreeOnly="false" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="{waypoint_name}" _description="Uses 36h11.launch published april tag poses.">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Decorator ID="RetryUntilSuccessful" num_attempts="2">
+        <SubTree ID="Move to Waypoint" _collapsed="true" acceleration_scale_factor="1.0" controller_action_server="/joint_trajectory_controller/follow_joint_trajectory" controller_names="/joint_trajectory_controller" joint_group_name="manipulator" keep_orientation="false" keep_orientation_tolerance="0.05" link_padding="0.01" velocity_scale_factor="1.0" waypoint_name="{waypoint_name}"/>
+      </Decorator>
+      <Action ID="WaitForDuration" delay_duration="1.0" name="To settle any vibrations"/>
+      <Action ID="ResetPoseStampedVector" vector="{poses_at_waypoint_vec}"/>
+      <Decorator ID="Repeat" num_cycles="100">
+        <Control ID="Sequence" name="TopLevelSequence">
+          <Decorator ID="RetryUntilSuccessful" num_attempts="5">
+            <SubTree ID="Calibrate Zed Cam from apriltag_ros" _collapsed="true" computed_pose="{computed_pose}" parameters="{parameters}"/>
+          </Decorator>
+          <Action ID="AddPoseStampedToVector" input="{computed_pose}" vector="{poses_at_waypoint_vec}"/>
+        </Control>
+      </Decorator>
+      <Action ID="AveragePoseStampedVector" average_pose_stamped="{average_pose_stamped}" pose_stamped_vector="{poses_at_waypoint_vec}"/>
+      <Action ID="AddPoseStampedToVector" input="{average_pose_stamped}" vector="{computed_poses_vector}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Calibrate Camera at Waypoint 36h11">
+      <inout_port name="computed_poses_vector" default="{computed_poses_vector}"/>
+      <input_port name="parameters" default="{parameters}"/>
+      <input_port name="waypoint_name" default="{waypoint_name}"/>
+    <MetadataFields>
+        <Metadata runnable="true"/>
+      </MetadataFields></SubTree>
+  </TreeNodesModel>
+</root>
