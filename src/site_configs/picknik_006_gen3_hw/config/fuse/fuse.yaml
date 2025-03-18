@@ -2,7 +2,7 @@
 state_estimator:
   ros__parameters:
     # Fixed-lag smoother configuration
-    optimization_frequency: 10.0
+    optimization_frequency: 100.0
     transaction_timeout: 0.01
     lag_duration: 0.01
 
@@ -144,7 +144,7 @@ state_estimator:
       publish_tf: true
 
       # how often to publish our estimates
-      publish_frequency: 10.0
+      publish_frequency: 100.0
 
       # without this, our estimate won't be updated without a measurement
       predict_to_current_time: true
