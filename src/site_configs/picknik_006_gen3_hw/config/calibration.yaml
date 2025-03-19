@@ -1,0 +1,11 @@
+apriltag_calibration:
+  ros__parameters:
+    world_frame: "world"
+    target_frame: "target_frame"
+    fiducial_frames:
+      - "satellite_tag_2901"
+      - "satellite_tag_2902"
+      - "satellite_tag_2903"
+      - "satellite_tag_2904"
+    # the minimum amount that each measurement contributes to the running average
+    min_contribution: 0.0
