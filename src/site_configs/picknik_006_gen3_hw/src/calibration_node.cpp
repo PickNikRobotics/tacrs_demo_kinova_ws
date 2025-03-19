@@ -47,6 +47,9 @@ public:
           "frame, and target frame must be non-empty");
     }
     origin_fiducial_frame_ = fiducial_frames_[0];
+    for (auto const &frame : fiducial_frames_) {
+      avg_pose_diff_.emplace_back();
+    }
     running_avg_pose_ = identity_pose();
   }
 
@@ -164,7 +167,9 @@ private:
 
     RCLCPP_INFO(this->get_logger(), "\n\n\n\n\n");
 
-    for (auto const &fiducial_frame : fiducial_frames_) {
+    for (std::size_t fiducial_index = 0;
+         fiducial_index < fiducial_frames_.size(); ++fiducial_index) {
+      auto const &fiducial_frame = fiducial_frames_[fiducial_index];
       try {
         auto const fiducial_target_frame = target_frame_ + "_" + fiducial_frame;
         geometry_msgs::msg::TransformStamped target_to_fiducial =
@@ -188,7 +193,6 @@ private:
         pose_measurement.orientation.z =
             target_to_fiducial.transform.rotation.z;
 
-
         geometry_msgs::msg::TransformStamped fiducial_to_origin =
             tf_buffer_->lookupTransform(origin_fiducial_frame_, fiducial_frame,
                                         tf2::TimePointZero);
@@ -199,22 +203,38 @@ private:
         // print_pose(pose_measurement_origin, "Pose measurement origin");
 
         // calculate the difference
-        auto diff = identity_pose();
-        diff.position.x =
+        auto current_diff = identity_pose();
+        current_diff.position.x =
             pose_measurement_origin.position.x - running_avg_pose_.position.x;
-        diff.position.y =
+        current_diff.position.y =
             pose_measurement_origin.position.y - running_avg_pose_.position.y;
-        diff.position.z =
+        current_diff.position.z =
             pose_measurement_origin.position.z - running_avg_pose_.position.z;
-        diff.orientation = quaternionDifference(
+        current_diff.orientation = quaternionDifference(
             pose_measurement_origin.orientation, running_avg_pose_.orientation);
+
+        // the fraction to update the averages by
+        auto const fraction = std::max(
+            1. / (static_cast<double>(++num_samples_)), min_contribution_);
+        auto const complementary_fraction = (1. - fraction);
+
+        // update the average difference
+        auto &avg_pose_diff = avg_pose_diff_[fiducial_index];
+        avg_pose_diff.position.x =
+            complementary_fraction * avg_pose_diff.position.x +
+            fraction * current_diff.position.x;
+        avg_pose_diff.position.y =
+            complementary_fraction * avg_pose_diff.position.y +
+            fraction * current_diff.position.y;
+        avg_pose_diff.position.z =
+            complementary_fraction * avg_pose_diff.position.z +
+            fraction * current_diff.position.z;
+        avg_pose_diff.orientation = weightedAverageQuaternion(
+            avg_pose_diff.orientation, current_diff.orientation, fraction);
 
         // update the running average
         // don't let the running average get stuck, each measurement contributes
         // minimum 0.1%
-        auto const fraction = std::max(
-            1. / (static_cast<double>(++num_samples_)), min_contribution_);
-        auto const complementary_fraction = (1. - fraction);
         running_avg_pose_.position.x =
             complementary_fraction * running_avg_pose_.position.x +
             fraction * pose_measurement_origin.position.x;
@@ -226,12 +246,17 @@ private:
             fraction * pose_measurement_origin.position.z;
         running_avg_pose_.orientation = weightedAverageQuaternion(
             running_avg_pose_.orientation, pose_measurement_origin.orientation,
-            fraction * 0.5);
+            fraction);
 
-        std::stringstream diff_s;
-        diff_s << "Difference from " << fiducial_frame
-               << " target frame to average";
-        print_pose(diff, diff_s.str());
+            std::stringstream diff_s;
+            diff_s << "Current difference from " << fiducial_frame
+                   << " target frame to average";
+            print_pose(current_diff, diff_s.str());
+
+            std::stringstream avg_diff_s;
+            avg_diff_s << "Current difference from " << fiducial_frame
+                   << " target frame to average";
+            print_pose(avg_pose_diff, avg_diff_s.str());
 
       } catch (const tf2::TransformException &ex) {
         RCLCPP_WARN(this->get_logger(),
@@ -255,6 +280,10 @@ private:
   std::size_t num_samples_;
   // the running avg pose of the target frame in the origin_fiducial_frame_
   geometry_msgs::msg::Pose running_avg_pose_;
+
+  // the average pose difference from running_avg_pose_ of the nth fiducial in
+  // the origin_fiducial_frame_
+  std::vector<geometry_msgs::msg::Pose> avg_pose_diff_;
 };
 
 int main(int argc, char **argv) {
