@@ -4,7 +4,6 @@
   <BehaviorTree ID="Calibrate Scene Camera 36h11" _description="Uses april tags detected from 36h11.launch." _favorite="false" _subtreeOnly="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="LoadObjectiveParameters" parameters="{parameters}" config_file_name="51mm_apriltag_detection_config.yaml"/>
-      <SubTree ID="Calibrate Camera at Waypoint 36h11" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="target_calib_3"/>
       <SubTree ID="Calibrate Camera at Waypoint 36h11" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_4"/>
       <SubTree ID="Calibrate Camera at Waypoint 36h11" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_5"/>
       <SubTree ID="Calibrate Camera at Waypoint 36h11" _collapsed="true" computed_poses_vector="{computed_poses_vector}" parameters="{parameters}" waypoint_name="Calibrate_6"/>
@@ -16,8 +15,13 @@
       </Decorator>
       <Action ID="AveragePoseStampedVector" average_pose_stamped="{calibrated_optical_pose}" pose_stamped_vector="{computed_poses_vector}"/>
       <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{calibrated_optical_pose}" name="Calibrated Optical Pose" marker_name="Calibrated optical pose"/>
-      <Action ID="TransformPose" input_pose="{calibrated_optical_pose}" output_pose="{camera_pose}" quaternion_xyzw=".5;-.5;.5;.5" translation_xyz="0.035;0.011;0.000"/>
-      <Action ID="SaveCalibrationPoseYaml" calibration_pose_stamped="{camera_pose}" file_name="calibration_pose.yaml"/>
+      <Action ID="TransformPoseFrame" input_pose="{calibrated_optical_pose}" target_frame_id="zed_left_camera_optical_frame" output_pose="{cal_optical_in_left_optical}" name="cal_optical in left_optical frame"/>
+      <Action ID="CreateStampedPose" stamped_pose="{zed_mount_frame}" reference_frame="zed_camera_link" name="create zed_mount_pose"/>
+      <Action ID="TransformPoseFrame" input_pose="{zed_mount_frame}" target_frame_id="zed_left_camera_optical_frame" output_pose="{zed_in_left_optical}" name="zed_mount in left_optical frame"/>
+      <Action ID="TransformPoseWithPose" input_pose="{zed_in_left_optical}" output_pose="{cal_zed_in_left}" transform_pose="{cal_optical_in_left_optical}" name="zed urdf delta: left_optical to mount"/>
+      <Action ID="TransformPoseFrame" input_pose="{cal_zed_in_left}" target_frame_id="base_link" output_pose="{zed_mount_in_base}" name="zed mount in base_link frame"/>
+      <Action ID="VisualizePose" marker_lifetime="0.000000" marker_size="0.100000" pose="{zed_mount_in_base}" name="Calibrated Camera Pose" marker_name="Calibrated camera pose (to file)"/>
+      <Action ID="SaveCalibrationPoseYaml" calibration_pose_stamped="{zed_mount_in_base}" file_name="calibration_pose.txt"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
