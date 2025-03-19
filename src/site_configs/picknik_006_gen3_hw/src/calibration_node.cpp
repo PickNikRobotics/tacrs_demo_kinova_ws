@@ -254,7 +254,7 @@ private:
             print_pose(current_diff, diff_s.str());
 
             std::stringstream avg_diff_s;
-            avg_diff_s << "Current difference from " << fiducial_frame
+            avg_diff_s << "Average difference from " << fiducial_frame
                    << " target frame to average";
             print_pose(avg_pose_diff, avg_diff_s.str());
 
