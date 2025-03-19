@@ -80,7 +80,8 @@ BT::NodeStatus SaveCalibrationPoseYaml::tick()
 
   shared_resources_->logger->publishInfoMessage(fmt::format("Writing calibration file to '{}'", filepath_maybe.value().string()));
   std::ofstream file_out(filepath_maybe.value());
-  file_out << node;
+  // file_out << node;
+  file_out << '<origin xyz=" ' << pose_stamped.pose.position.x << pose_stamped.pose.position.y << pose_stamped.pose.position.z << '" rpy="' << roll << pitch << yaw << '" />';
   file_out.close();
 
   return BT::NodeStatus::SUCCESS;

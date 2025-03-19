@@ -28,7 +28,6 @@
   <xacro:arg name="gripper_com_port" default="/dev/ttyUSB0" />
   <xacro:arg name="robotiq_fts" default="false" />
   <xacro:arg name="fts_com_port" default="/dev/ttyUSB1" />
-  <xacro:arg name="scene_camera_calibration_file" default="package://picknik_006_gen3_hw/objectives/scene_camera_calibration.yaml"/>
 
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find kortex_description)/robots/kortex_robot.xacro" />
@@ -288,12 +287,17 @@
     <origin xyz="0 -0.09325 -0.01" rpy="0 ${pi} ${pi}"/>
   </joint>
 
-    <!-- Scene camera fixed in robot workspace -->
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/extrinsic_calibrated_realsense.urdf.xacro"/>
-  <xacro:load_extrinsic_calibrated_realsense
-    name="zed_cam"
-    parent="base_link"
-    extrinsic_calibration_parameter_file="$(arg scene_camera_calibration_file)" />
+    <!-- zed camera calibration pose-->
+  <link name="estimated_zed_base_frame" />
+  <joint name="estimated_zed_base_frame_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="estimated_zed_base_frame" />
+    <origin xyz="0.036 0.612 0.374" rpy="0.0099561637429225348 0.066539679824019635 -0.4356580325951358" />
+  </joint>
+
+  <!-- zed camera URDF-->
+  <xacro:include filename="$(find zed_description)/urdf/zed2i.urdf.xacro"/>
+  <xacro:zed2i parent="estimated_zed_base_frame"/>
 
 
 </robot>
