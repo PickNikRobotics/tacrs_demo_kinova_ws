@@ -130,23 +130,23 @@ private:
     RCLCPP_INFO(this->get_logger(),
                 "\n\nTransform from %s to %s:", tf.header.frame_id.c_str(),
                 tf.child_frame_id.c_str());
-    RCLCPP_INFO(this->get_logger(), "Translation -> x: %.4f, y: %.4f, z: %.4f",
+    RCLCPP_INFO(this->get_logger(), "Translation -> x: %.6f, y: %.6f, z: %.6f",
                 tf.transform.translation.x, tf.transform.translation.y,
                 tf.transform.translation.z);
     double y, p, r;
     tf2::getEulerYPR(tf.transform.rotation, y, p, r);
     RCLCPP_INFO(this->get_logger(),
-                "Rotation -> yaw: %.4f, pitch: %.4f, roll: %.4f", y, p, r);
+                "Rotation -> yaw: %.6f, pitch: %.6f, roll: %.6f", y, p, r);
   }
   void print_pose(geometry_msgs::msg::Pose const &pose,
                   std::string const &title) {
     RCLCPP_INFO(this->get_logger(), "\n\n%s:", title.c_str());
-    RCLCPP_INFO(this->get_logger(), "Translation -> x: %.2f, y: %.2f, z: %.2f",
+    RCLCPP_INFO(this->get_logger(), "Translation -> x: %.6f, y: %.6f, z: %.6f",
                 pose.position.x, pose.position.y, pose.position.z);
     double y, p, r;
     tf2::getEulerYPR(pose.orientation, y, p, r);
     RCLCPP_INFO(this->get_logger(),
-                "Rotation -> yaw: %.4f, pitch: %.4f, roll: %.4f", y, p, r);
+                "Rotation -> yaw: %.6f, pitch: %.6f, roll: %.6f", y, p, r);
   }
   void timer_callback() {
     RCLCPP_INFO_ONCE(this->get_logger(), "Starting calibration capture...");
