@@ -1,6 +1,5 @@
 apriltag_calibration:
   ros__parameters:
-    world_frame: "world"
     target_frame: "target_frame"
     fiducial_frames:
       - "satellite_tag_2901"

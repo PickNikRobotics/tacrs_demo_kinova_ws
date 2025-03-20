@@ -22,7 +22,6 @@ public:
         "fiducial_frames", std::vector<std::string>());
     this->declare_parameter<double>("min_contribution", 0.001);
 
-    this->get_parameter("world_frame", world_frame_);
     this->get_parameter("target_frame", target_frame_);
     this->get_parameter("fiducial_frames", fiducial_frames_);
     this->get_parameter("min_contribution", min_contribution_);
@@ -40,8 +39,7 @@ public:
           "min_contribution value must be in the range [0, 0.01]");
     }
 
-    if (fiducial_frames_.empty() || world_frame_.empty() ||
-        target_frame_.empty()) {
+    if (fiducial_frames_.empty() || target_frame_.empty()) {
       throw std::runtime_error(
           "Invalid configuration for calibration node. Fiducial frames, world "
           "frame, and target frame must be non-empty");
@@ -54,6 +52,7 @@ public:
   }
 
 private:
+  // convenience function to get an identity pose
   geometry_msgs::msg::Pose identity_pose() {
     geometry_msgs::msg::Pose to_return;
     to_return.orientation.w = 1;
@@ -65,6 +64,8 @@ private:
     to_return.position.z = 0;
     return to_return;
   }
+
+  // convenience function to apply a transform to a pose
   geometry_msgs::msg::Pose
   applyTransform(const geometry_msgs::msg::TransformStamped &transform,
                  const geometry_msgs::msg::Pose &pose) {
@@ -92,11 +93,14 @@ private:
 
     return transformed_pose;
   }
+
+  // convenience function to convert ROS quat to eigen quat
   Eigen::Quaterniond
   toEigenQuaternion(const geometry_msgs::msg::Quaternion &q) {
     return Eigen::Quaterniond(q.w, q.x, q.y, q.z);
   }
 
+  // convenience function to convert eigen quat to ROS quat
   geometry_msgs::msg::Quaternion toROSQuaternion(const Eigen::Quaterniond &q) {
     geometry_msgs::msg::Quaternion ros_q;
     ros_q.w = q.w();
@@ -105,6 +109,9 @@ private:
     ros_q.z = q.z();
     return ros_q;
   }
+
+  // convenience function to get weighted average of two ros quaternions using
+  // SLERP
   geometry_msgs::msg::Quaternion
   weightedAverageQuaternion(const geometry_msgs::msg::Quaternion &q1,
                             const geometry_msgs::msg::Quaternion &q2,
@@ -119,6 +126,9 @@ private:
 
     return toROSQuaternion(result);
   }
+
+  // convenience function representing analog of 'subtraction' for unit
+  // quaternions
   geometry_msgs::msg::Quaternion
   quaternionDifference(const geometry_msgs::msg::Quaternion &q1,
                        const geometry_msgs::msg::Quaternion &q2) {
@@ -129,6 +139,8 @@ private:
 
     return toROSQuaternion(q_diff);
   }
+
+  // print a transform to the console
   void print_tf(geometry_msgs::msg::TransformStamped const &tf) {
     RCLCPP_INFO(this->get_logger(),
                 "\n\nTransform from %s to %s:", tf.header.frame_id.c_str(),
@@ -141,6 +153,8 @@ private:
     RCLCPP_INFO(this->get_logger(),
                 "Rotation -> yaw: %.6f, pitch: %.6f, roll: %.6f", y, p, r);
   }
+
+  // print a pose to the console
   void print_pose(geometry_msgs::msg::Pose const &pose,
                   std::string const &title) {
     RCLCPP_INFO(this->get_logger(), "\n\n%s:", title.c_str());
@@ -151,6 +165,8 @@ private:
     RCLCPP_INFO(this->get_logger(),
                 "Rotation -> yaw: %.6f, pitch: %.6f, roll: %.6f", y, p, r);
   }
+
+  // run the main calibration utilities
   void timer_callback() {
     RCLCPP_INFO_ONCE(this->get_logger(), "Starting calibration capture...");
     std::stringstream s;
@@ -159,8 +175,6 @@ private:
       s << fiducial_frame << ", ";
     }
     RCLCPP_INFO_ONCE(this->get_logger(), "%s", s.str().c_str());
-    RCLCPP_INFO_ONCE(this->get_logger(), "Parent frame: %s",
-                     world_frame_.c_str());
     RCLCPP_INFO_ONCE(this->get_logger(), "Target frame: %s",
                      target_frame_.c_str());
     auto const num_fiducials = fiducial_frames_.size();
@@ -193,16 +207,24 @@ private:
         pose_measurement.orientation.z =
             target_to_fiducial.transform.rotation.z;
 
+        // we get the transform from this fiducial's frame to the "origin"
+        // fiducial's frame the origin fiducial is chosen arbitrarily and
+        // shouldn't actually matter
         geometry_msgs::msg::TransformStamped fiducial_to_origin =
             tf_buffer_->lookupTransform(origin_fiducial_frame_, fiducial_frame,
                                         tf2::TimePointZero);
 
+        // this fiducial's estimate of the target frame expressed in the origin
+        // fiducial frame
         auto pose_measurement_origin =
             applyTransform(fiducial_to_origin, pose_measurement);
+
+        // debug prints
         // print_pose(pose_measurement, "Pose measurement");
         // print_pose(pose_measurement_origin, "Pose measurement origin");
 
-        // calculate the difference
+        // calculate the difference between what this fiducial thinks the target
+        // pose should be and the running average (both in origin frame)
         auto current_diff = identity_pose();
         current_diff.position.x =
             pose_measurement_origin.position.x - running_avg_pose_.position.x;
@@ -213,12 +235,14 @@ private:
         current_diff.orientation = quaternionDifference(
             pose_measurement_origin.orientation, running_avg_pose_.orientation);
 
-        // the fraction to update the averages by
+        // we compute the new averages by adding fraction times the current
+        // value to complementary fraction times the existing value
         auto const fraction = std::max(
             1. / (static_cast<double>(++num_samples_)), min_contribution_);
         auto const complementary_fraction = (1. - fraction);
 
-        // update the average difference
+        // update the average difference in what this tag thinks the pose should
+        // be in origin frame and the running average pose in origin frame
         auto &avg_pose_diff = avg_pose_diff_[fiducial_index];
         avg_pose_diff.position.x =
             complementary_fraction * avg_pose_diff.position.x +
@@ -232,9 +256,7 @@ private:
         avg_pose_diff.orientation = weightedAverageQuaternion(
             avg_pose_diff.orientation, current_diff.orientation, fraction);
 
-        // update the running average
-        // don't let the running average get stuck, each measurement contributes
-        // minimum 0.1%
+        // update the running average of the target pose
         running_avg_pose_.position.x =
             complementary_fraction * running_avg_pose_.position.x +
             fraction * pose_measurement_origin.position.x;
@@ -248,15 +270,15 @@ private:
             running_avg_pose_.orientation, pose_measurement_origin.orientation,
             fraction);
 
-            std::stringstream diff_s;
-            diff_s << "Current difference from " << fiducial_frame
-                   << " target frame to average";
-            print_pose(current_diff, diff_s.str());
+        std::stringstream diff_s;
+        diff_s << "Current difference from " << fiducial_frame
+               << " target frame to average";
+        print_pose(current_diff, diff_s.str());
 
-            std::stringstream avg_diff_s;
-            avg_diff_s << "Average difference from " << fiducial_frame
+        std::stringstream avg_diff_s;
+        avg_diff_s << "Average difference from " << fiducial_frame
                    << " target frame to average";
-            print_pose(avg_pose_diff, avg_diff_s.str());
+        print_pose(avg_pose_diff, avg_diff_s.str());
 
       } catch (const tf2::TransformException &ex) {
         RCLCPP_WARN(this->get_logger(),
@@ -264,19 +286,33 @@ private:
         continue;
       }
     }
+    // print the running average target pose in the origin frame
     std::stringstream avg_s;
     avg_s << "Running average pose in " << origin_fiducial_frame_ << " frame";
     print_pose(running_avg_pose_, avg_s.str());
   }
 
+  // tf/ROS stuff
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
   rclcpp::TimerBase::SharedPtr timer_;
-  std::string world_frame_;
+
+  // the name of the target frame (will prefix each fiducial frame in the actual
+  // tf name, see fuse's apriltag tutorial for more information)
   std::string target_frame_;
+
+  // the name of each fiducial frame of interest
   std::vector<std::string> fiducial_frames_;
+
+  // the minimum amount a measurement will update the average by (should be [0,
+  // 0.1))
   double min_contribution_;
+
+  // the name of the frame used as the origin, arbitrarily selected as the first
+  // fiducial
   std::string origin_fiducial_frame_;
+
+  // how many samples this node has thus far collected
   std::size_t num_samples_;
   // the running avg pose of the target frame in the origin_fiducial_frame_
   geometry_msgs::msg::Pose running_avg_pose_;
