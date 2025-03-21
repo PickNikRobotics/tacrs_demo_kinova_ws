@@ -13,6 +13,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>picknik_kinova_satellite_sim</depend>
+  <depend>tf2_geometry_msgs</depend>
+
 
   <exec_depend>kinova_vision</exec_depend>
   <exec_depend>robotiq_ft_sensor_description</exec_depend>

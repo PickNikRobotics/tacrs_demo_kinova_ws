@@ -1,0 +1,8 @@
+launch:
+  - node:
+      pkg: "picknik_006_gen3_hw"
+      exec: "calibration_node"
+      name: "apriltag_calibration"
+      output: "screen"
+      param:
+        - from: $(find-pkg-share picknik_006_gen3_hw)/config/calibration.yaml
