@@ -112,11 +112,10 @@ state_estimator:
       position_dimensions: ["x", "y", "z"]
       orientation_dimensions: ["roll", "pitch", "yaw"]
       # TODO(anyone): set these empirically (collect data and estimate covariances) instead of just with arbitrary values
-      pose_covariance: 
-      # first camera
-      [0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
-      # second camera
-      0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+      pose_covariance:
+        [0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+        # second estimation frame
+         0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 
     # this publishes our estimated odometry
     publishers:
@@ -136,9 +135,9 @@ state_estimator:
       odom_frame_id: "odom"
 
       # this should be the same as `estimation_frame` in `transform_sensor` above
-      map_frame_id: "zed_left_camera_optical_frame"
+      map_frame_id: "world"
       # this should be the same as `map_frame_id`
-      world_frame_id: "zed_left_camera_optical_frame"
+      world_frame_id: "world"
 
       # optionally publish a tf
       publish_tf: true
