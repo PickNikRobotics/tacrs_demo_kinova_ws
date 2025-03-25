@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Grapple RAFTI - Decelerate">
   <!--//////////-->
   <BehaviorTree ID="Grapple RAFTI - Decelerate" _description="Track and grapple moving satellite with collision guarded VFC (aka PoseJog) and a deceleration procedure once grappled." _favorite="true" _subtreeOnly="false">
@@ -57,7 +58,8 @@
           <Decorator ID="Repeat" num_cycles="100" name="This * time_step = total decel time. Set to 100 for simplicity.">
             <Control ID="Sequence" name="">
               <Action ID="WaitForDuration" name="time_step for reducing velocity. Set to desired duration (s) / num_cycles." delay_duration="0.06"/>
-              <Action ID="ScaleTwist" input_odometry="{subscribed_odometry}" scaled_velocity="{scaled_velocity}" velocity_scale="0.97" name="Set v_scale to get desired end/start ratio. e.g.(~0.05 = 0.97^100)"/>
+              <Action ID="ComputeVelocityToAlignWithTarget" output_control_velocity="{desired_twist2}" proportional_gain_angular="0.0" proportional_gain_linear="0.0" end_effector_frame="grasp_link" target_motion_state="{subscribed_odometry}" target_pose_offset="{target_pose_offset}" output_pose_error="{error_pose}"/>
+              <Action ID="ScaleTwist" input_velocity="{desired_twist2}" scaled_velocity="{desired_twist}" velocity_scale="0.7"/>
             </Control>
           </Decorator>
         </Control>
@@ -67,11 +69,7 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Grapple RAFTI - Decelerate">
-      <MetadataFields>
-        <Metadata runnable="true"/>
-      </MetadataFields>
-    <MetadataFields>
+    <SubTree ID="Grapple RAFTI - Decelerate"><MetadataFields>
         <Metadata runnable="true"/>
       </MetadataFields></SubTree>
   </TreeNodesModel>

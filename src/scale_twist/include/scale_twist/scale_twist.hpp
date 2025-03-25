@@ -1,7 +1,6 @@
 #pragma once
 
 #include <geometry_msgs/msg/twist_stamped.hpp>
-#include <nav_msgs/msg/odometry.hpp>
 #include <behaviortree_cpp/action_node.h>
 
 #include <moveit_studio_behavior_interface/shared_resources_node.hpp>

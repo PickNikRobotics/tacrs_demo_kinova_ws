@@ -5,7 +5,7 @@
 
 namespace scale_twist {
 
-constexpr auto kPortIdInputOdometry = "input_odometry";
+constexpr auto kPortIdInputVelocity = "input_velocity";
 constexpr auto kPortIdVelocityScale = "velocity_scale";
 constexpr auto kPortIdScaledVelocity = "scaled_velocity";
 
@@ -17,26 +17,26 @@ ScaleTwist::ScaleTwist(
           name, config, shared_resources) {}
 
 BT::PortsList ScaleTwist::providedPorts() {
-  return {BT::InputPort<nav_msgs::msg::Odometry>(
-              kPortIdInputOdometry, "input_odometry",
-              "Odometry message containing the velocity."),
+  return {BT::InputPort<geometry_msgs::msg::TwistStamped>(
+    kPortIdInputVelocity, "input_velocity",
+              "Input velocity."),
           BT::InputPort<double>(kPortIdVelocityScale, "0.8",
                                 "Velocity scalar multiplier."),
           BT::OutputPort<geometry_msgs::msg::TwistStamped>(
             kPortIdScaledVelocity, "{scaled_velocity}",
-              "Odometry velocity multiplied by the scalar.")};
+              "Input velocity multiplied by the scalar.")};
 }
 
 BT::KeyValueVector ScaleTwist::metadata() {
   // TODO(...)
-  return {{"description", "Return an odometry twist multiplied by a scalar."}};
+  return {{"description", "Return a velocity multiplied by a scalar."}};
 }
 
 BT::NodeStatus ScaleTwist::tick() {
 
   // Extract the input ports.
   const auto ports = moveit_studio::behaviors::getRequiredInputs(
-      getInput<nav_msgs::msg::Odometry>(kPortIdInputOdometry),
+      getInput<geometry_msgs::msg::TwistStamped>(kPortIdInputVelocity),
       getInput<double>(kPortIdVelocityScale) );
 
   // If a port was set incorrectly, log an error message return FAILURE
@@ -48,18 +48,17 @@ BT::NodeStatus ScaleTwist::tick() {
     return BT::NodeStatus::FAILURE;
   }
 
-  const auto &[odometry_input, velocity_scale] =
+  const auto &[velocity_input, velocity_scale] =
       ports.value();
 
   // Scale the velocity.
-  geometry_msgs::msg::TwistStamped scaled_velocity;
-  scaled_velocity.header = odometry_input.header;
-  scaled_velocity.twist.linear.x = odometry_input.twist.twist.linear.x * velocity_scale;
-  scaled_velocity.twist.linear.y = odometry_input.twist.twist.linear.y * velocity_scale;
-  scaled_velocity.twist.linear.z = odometry_input.twist.twist.linear.z * velocity_scale;
-  scaled_velocity.twist.angular.x = odometry_input.twist.twist.angular.x * velocity_scale;
-  scaled_velocity.twist.angular.y = odometry_input.twist.twist.angular.y * velocity_scale;
-  scaled_velocity.twist.angular.z = odometry_input.twist.twist.angular.z * velocity_scale;
+  geometry_msgs::msg::TwistStamped scaled_velocity = velocity_input;
+  scaled_velocity.twist.linear.x = velocity_input.twist.linear.x * velocity_scale;
+  scaled_velocity.twist.linear.y = velocity_input.twist.linear.y * velocity_scale;
+  scaled_velocity.twist.linear.z = velocity_input.twist.linear.z * velocity_scale;
+  scaled_velocity.twist.angular.x = velocity_input.twist.angular.x * velocity_scale;
+  scaled_velocity.twist.angular.y = velocity_input.twist.angular.y * velocity_scale;
+  scaled_velocity.twist.angular.z = velocity_input.twist.angular.z * velocity_scale;
 
   setOutput(kPortIdScaledVelocity, scaled_velocity);
 
