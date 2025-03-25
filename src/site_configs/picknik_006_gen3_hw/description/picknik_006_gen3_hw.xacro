@@ -293,7 +293,7 @@
     <parent link="base_link" />
     <child link="estimated_zed_base_frame" />
     <!-- replace next line with calibrated camera pose (from calibration_pose.txt)  -->
-    <origin xyz=" -0.0364711 0.543233 0.333978" rpy="-0.0155904 0.0406733 -0.543247" />
+    <origin xyz=" -0.0364711 0.56 0.32" rpy="-0.0155904 0.0406733 -0.543247" />
   </joint>
 
   <!-- zed camera URDF-->

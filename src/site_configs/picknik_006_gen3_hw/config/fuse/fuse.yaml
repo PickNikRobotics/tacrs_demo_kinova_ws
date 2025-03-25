@@ -16,23 +16,22 @@ state_estimator:
       # use high values for the acceleration process noise because we aren't measuring the applied forces
       process_noise_diagonal:
         [
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
-          0.1,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
+          0.01,
         ]
-      # process_noise_diagonal: [0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.01, 0.01, 0.01]
 
     sensor_models:
       initial_localization_sensor:
@@ -113,9 +112,9 @@ state_estimator:
       orientation_dimensions: ["roll", "pitch", "yaw"]
       # TODO(anyone): set these empirically (collect data and estimate covariances) instead of just with arbitrary values
       pose_covariance:
-        [0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+        [0.15, 0.15, 0.15, 0.5, 0.5, 0.5,
         # second estimation frame
-         0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+         0.15, 0.15, 0.15, 0.5, 0.5, 0.5]
 
     # this publishes our estimated odometry
     publishers:

@@ -1,0 +1,4 @@
+objectives:
+  behavior_loader_plugins:
+    scale_twist:
+      - "scale_twist::ScaleTwistBehaviorsLoader"

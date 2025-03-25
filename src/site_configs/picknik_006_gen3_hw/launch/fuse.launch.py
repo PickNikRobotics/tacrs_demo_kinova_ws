@@ -42,23 +42,22 @@ def generate_launch_description():
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
-                # arguments=["0", "0", "0", "0", "0", "0", "satellite_tag_2901", "target_frame_satellite_tag_2901"],
-                arguments=["0.115", "-0.100", "0", "0", "0", "0", "satellite_tag_2901", "target_frame_satellite_tag_2901"],
+                arguments=["0.216", "-0.216", "0", "-1.57079632679", "0", "0", "satellite_tag_2901", "target_frame_satellite_tag_2901"],
             ),
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
-                arguments=["-0.117", "-0.109", "0", "0", "0", "0", "satellite_tag_2902", "target_frame_satellite_tag_2902"],
+                arguments=["-0.216", "-0.216", "0", "-1.57079632679", "0", "0", "satellite_tag_2902", "target_frame_satellite_tag_2902"],
             ),
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
-                arguments=["0.102", "0.102", "0", "0", "0", "0", "satellite_tag_2903", "target_frame_satellite_tag_2903"],
+                arguments=["0.216", "0.216", "0", "-1.57079632679", "0", "0", "satellite_tag_2903", "target_frame_satellite_tag_2903"],
             ),
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
-                arguments=["-0.103", "0.113", "0", "0", "0", "0", "satellite_tag_2904", "target_frame_satellite_tag_2904"],
+                arguments=["-0.216", "0.216", "0", "-1.57079632679", "0", "0", "satellite_tag_2904", "target_frame_satellite_tag_2904"],
             ),
 
             # run our estimator

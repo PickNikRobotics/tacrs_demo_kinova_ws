@@ -16,6 +16,6 @@
 
         # optional list of tags
         tag:
-            ids: [5, 2, 3, 0]   # tag ID in order top left, top right, bottom left, bottom right.
+            ids: [1, 2, 4, 0]   # tag ID in order top left, top right, bottom left, bottom right.
             frames: [satellite_tag_2901, satellite_tag_2902, satellite_tag_2903, satellite_tag_2904]  # optional frame name
-            sizes: [0.051, 0.051, 0.051, 0.051]   # optional tag-specific edge size
+            sizes: [0.153, 0.153, 0.153, 0.153]   # optional tag-specific edge size
