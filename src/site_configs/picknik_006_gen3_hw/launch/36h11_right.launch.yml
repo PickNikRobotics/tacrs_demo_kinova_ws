@@ -1,0 +1,25 @@
+launch:
+- arg:
+    name: device
+    default: "0"
+
+- node_container:
+    pkg: rclcpp_components
+    exec: component_container
+    name: apriltag_right_container
+    namespace: ""
+    composable_node:
+    - pkg: apriltag_ros
+      plugin: AprilTagNode
+      name: apriltag_right
+      namespace: apriltag_right
+      remap:
+      - from: /apriltag_right/image_rect
+        to: /zed2i_camera/right/image_raw_color
+      - from: /apriltag_right/camera_info
+        to: /zed2i_camera/right/camera_info
+      param:
+      - from: $(find-pkg-share picknik_006_gen3_hw)/launch/tags_36h11.yaml
+      extra_arg:
+      - name: use_intra_process_comms
+        value: "True"

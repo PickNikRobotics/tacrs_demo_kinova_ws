@@ -2,7 +2,7 @@
 state_estimator:
   ros__parameters:
     # Fixed-lag smoother configuration
-    optimization_frequency: 10.0
+    optimization_frequency: 100.0
     transaction_timeout: 0.01
     lag_duration: 0.01
 
@@ -14,7 +14,24 @@ state_estimator:
     3d_motion_model:
       # x, y, z, roll, pitch, yaw, x_vel, y_vel, z_vel, roll_vel, pitch_vel, yaw_vel, x_acc, y_acc, z_acc
       # use high values for the acceleration process noise because we aren't measuring the applied forces
-      process_noise_diagonal: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+      process_noise_diagonal:
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+        ]
       # process_noise_diagonal: [0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.000001, 0.01, 0.01, 0.01]
 
     sensor_models:
@@ -29,8 +46,42 @@ state_estimator:
     initial_localization_sensor:
       publish_on_startup: true
       # x, y, z, roll, pitch, yaw, x_vel, y_vel, z_vel, roll_vel, pitch_vel, yaw_vel, x_acc, y_acc, z_acc
-      initial_state: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-      initial_sigma: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+      initial_state:
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+        ]
+      initial_sigma:
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+        ]
 
     transform_sensor:
       # fuse expects frames named target_frame_[transform of interest]
@@ -40,20 +91,31 @@ state_estimator:
       # the april tag (`satellite_tag_x`) will be a descendent of the estimation frame (`servicer_camera_optical_frame`) in the tf tree
       # thus, we need a different leaf in the tf tree to represent each satellite tag's correspondence to the target frame
       # transforms: ['satellite_tag_2901']
-      transforms: ['satellite_tag_2901', 'satellite_tag_2902', 'satellite_tag_2903', 'satellite_tag_2904']
+      transforms:
+        [
+          "satellite_tag_2901",
+          "satellite_tag_2902",
+          "satellite_tag_2903",
+          "satellite_tag_2904",
+        ]
 
       # this frame is the frame that we are actually estimating
       # fuse will publish an odom from the `estimation_frame` to this frame (and optionally a tf, too)
-      target_frame: 'target_frame'
+      target_frame: "target_frame"
+
+      base_frame: "world"
 
       # this is the frame that all transforms should be parented to for fuse to use as a measurement
       # thus a measurement will be a tf from `estimation_frame` to any frame in `transforms` (see above)
-      estimation_frame: 'zed_left_camera_optical_frame'
-      position_dimensions: ['x', 'y', 'z']
-      orientation_dimensions: ['roll', 'pitch', 'yaw']
+      estimation_frames:
+        ["zed_left_camera_optical_frame", "zed_right_camera_optical_frame"]
+      position_dimensions: ["x", "y", "z"]
+      orientation_dimensions: ["roll", "pitch", "yaw"]
       # TODO(anyone): set these empirically (collect data and estimate covariances) instead of just with arbitrary values
-      pose_covariance: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
-      tf_timeout: 0.01
+      pose_covariance:
+        [0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+        # second estimation frame
+         0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 
     # this publishes our estimated odometry
     publishers:
@@ -62,26 +124,26 @@ state_estimator:
 
     # the configuration of our output publisher
     filtered_publisher:
-      topic: 'odom_filtered'
+      topic: "odom_filtered"
       # this should be the same as `target_frame` from `transform_sensor` above
-      base_link_frame_id: 'target_frame'
+      base_link_frame_id: "target_frame"
 
       # this should be the same as `base_link_frame_id` above
-      base_link_output_frame_id: 'target_frame'
+      base_link_output_frame_id: "target_frame"
 
       # this should typically just be `odom``
-      odom_frame_id: 'odom'
+      odom_frame_id: "odom"
 
       # this should be the same as `estimation_frame` in `transform_sensor` above
-      map_frame_id: 'zed_left_camera_optical_frame'
+      map_frame_id: "world"
       # this should be the same as `map_frame_id`
-      world_frame_id: 'zed_left_camera_optical_frame'
+      world_frame_id: "world"
 
       # optionally publish a tf
       publish_tf: true
 
       # how often to publish our estimates
-      publish_frequency: 10.0
+      publish_frequency: 100.0
 
       # without this, our estimate won't be updated without a measurement
       predict_to_current_time: true
